@@ -1,4 +1,4 @@
-.loginContainer {
+.registerContainer {
 	position: relative; // creating the stack context
 	width: 100vw;
 	height: 100vh;
@@ -7,37 +7,37 @@
 	overflow: hidden;
 }
 
-.loginBackgroundContainer {
+.registerBackgroundContainer {
 	position: absolute; // We use it to place something within the stack context of the "position: relative" container
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 }
 
-.loginBackgroundImage {
+.registerBackgroundImage {
 	vertical-align: 0;
 	width: 100%; // Fit in the parent container
 	height: 100%;
 	object-fit: cover; // Preserve aspect ration and cut part of the image if necessary
 }
 
-.loginFormContainer {
+.registerFormContainer {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	background-color: white;
 	width: 100%;
 	height: 100%;
-	max-width: 400px;
-	max-height: 480px;
+	max-width: 480px;
+	max-height: 650px;
 	margin: auto;
 	z-index: 2;
 	border-radius: 4px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-	padding: 32px 32px; // Centering the content of the form
+	padding: 32px 10px; // Centering the content of the form
 }
 
-.loginFormTitle {
+.registerFormTitle {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -45,25 +45,14 @@
 	padding-bottom: 40px;
 }
 
-.loginFormTitleText {
+.registerFormTitleText {
 	padding-top: 20px;
 	font-size: 30px;
 	font-weight: 500;
 }
 
-.loginForm {
+.registerBtn {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
-	margin: auto; // Centers the form in the container
-}
-
-.loginFormForgotPassword {
-	float: right;
-}
-
-.loginFormBtn {
-	width: 100%;
+	align-items: center;
 }
