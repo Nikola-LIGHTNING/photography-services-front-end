@@ -5,6 +5,10 @@
 	display: flex;
 	z-index: 0;
 	overflow: hidden;
+
+	// @media (max-width: 375px) AND (max-height: 800px) {
+	// 	height: auto;
+	// }
 }
 
 .registerBackgroundContainer {
@@ -26,8 +30,8 @@
 	flex-direction: column;
 	justify-content: center;
 	background-color: white;
-	width: 100%;
-	height: 100%;
+	// width: 90%; //changed from 100% to 90%
+	// height: 90%; //changed from 100% to 90%
 	max-width: 480px;
 	max-height: 650px;
 	margin: auto;
@@ -35,20 +39,69 @@
 	border-radius: 4px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 	padding: 32px 10px; // Centering the content of the form
+
+	@media (max-width: 540px), (max-height: 600px) {
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 100%;
+		border-radius: 0;
+		box-shadow: none;
+		padding: 5px 5px;
+		overflow: auto; //changed to overflow-y
+	}
 }
 
 .registerFormTitle {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 10px 32px;
+	padding-top: 10px;
+	padding-left: 32px;
 	padding-bottom: 40px;
+	padding-right: 32px;
+
+	@media (max-width: 540px) {
+		padding-top: 15px;
+		padding-left: 5px;
+		padding-bottom: 10px;
+		padding-right: 5px;
+	}
+}
+
+.registerFormLogo {
+	@media (max-width: 540px) {
+		//	display: none;
+	}
 }
 
 .registerFormTitleText {
 	padding-top: 20px;
 	font-size: 30px;
 	font-weight: 500;
+
+	@media (max-width: 540px) {
+		font-size: 26px;
+		padding-top: 5px;
+	}
+}
+
+.registerForm {
+	@media (max-width: 540px) {
+		overflow: auto;
+		padding-top: 5px;
+		padding-left: 5px;
+		padding-bottom: 10px;
+		padding-right: 5px;
+	}
+}
+
+.registerTermsOfService {
+	@media (max-width: 540px) {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 }
 
 .registerBtn {

@@ -47,8 +47,12 @@ function Navbar() {
 				</Button>
 			</div>
 			<Menu className="navbarMenu" onClick={handleClick} selectedKeys={[selectedTab]} mode="horizontal">
-				<Item key="home">Начало</Item>
-				<Item key="photographers">Фотографи</Item>
+				<Item key="home">
+					<Link to="/">Начало</Link>
+				</Item>
+				<Item key="photographers">
+					<Link to="/photographers">Фотографи</Link>
+				</Item>
 				<SubMenu key="photo_services" title="Услуги">
 					<ItemGroup title="Отразяване на събития">
 						<Item key="photo_service:1">Сватбена фотография</Item>

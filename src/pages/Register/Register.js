@@ -3,9 +3,11 @@ import Logo from "../../components/Logo/Logo";
 import { Form, Input, Select, Checkbox, Button } from "antd";
 
 const { Option } = Select;
-const passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,40}$");
 
 function Register() {
+	const passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,40}$"); // From herehttps://ihateregex.io/expr/password/
+	const phoneRegex = new RegExp("^0[0-9]{9}$");
+
 	const registerFormItemLayout = {
 		labelCol: { span: 10 },
 		wrapperCol: { span: 13 },
@@ -25,7 +27,9 @@ function Register() {
 			</div>
 			<div className="registerFormContainer">
 				<div className="registerFormTitle">
-					<Logo />
+					<div className="registerFormLogo">
+						<Logo />
+					</div>
 					<span className="registerFormTitleText">Регистрация</span>
 				</div>
 				<Form className="registerForm" {...registerFormItemLayout} name="register" onFinish={onFinish}>
@@ -57,33 +61,9 @@ function Register() {
 							},
 							{
 								pattern: passwordRegex,
-								message: "Паролата трябва да съдържа поне 1 цифра, 1 главна, 1 малка буква и да е поне 8 символа!",
+								message:
+									"Паролата трябва да съдържа поне 1 цифра, 1 главна и 1 малка латински букви, да е между 8 и 40 символа!",
 							},
-							// {
-							// 	validator(_, value) {
-							// 		return passwordRegex.test(value)
-							// 			? Promise.resolve()
-							// 			: Promise.reject(
-							// 					new Error(
-							// 						"Паролата трябва да съдържа поне 1 цифра, 1 главна, 1 малка буква и да е поне 8 символа!"
-							// 					)
-							// 			  );
-							// 	},
-							// },
-							// {
-							// 	validator(_, value) {
-							// 		if (passwordRegex.test(value)) {
-							// 			return Promise.resolve();
-							// 		}
-
-							// 		return Promise.reject(
-							// 			new Error(
-							// 				"Паролата трябва да съдържа поне 1 цифра, 1 главна и 1 малка латински букви, \
-							//         да е между 8 и 20 символа!"
-							// 			)
-							// 		);
-							// 	},
-							// },
 						]}
 					>
 						<Input.Password />
@@ -120,6 +100,10 @@ function Register() {
 								required: true,
 								message: "Моля, въведете телефонен номер!",
 							},
+							{
+								pattern: phoneRegex,
+								message: "Моля, въведете номер започващ с 0, последван от 9 цифри!",
+							},
 						]}
 					>
 						<Input />
@@ -142,6 +126,7 @@ function Register() {
 
 					<Form.Item
 						name="acceptTermsOfService"
+						className="registerTermsOfService"
 						valuePropName="checked"
 						rules={[
 							{

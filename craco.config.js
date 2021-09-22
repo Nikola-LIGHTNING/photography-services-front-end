@@ -11,6 +11,7 @@ module.exports = {
 							"@primary-color": "#52c41a",
 							"@font-size-base": "16px",
 							// "@menu-item-font-size": "16px",
+							"@menu-inline-submenu-bg": "white",
 							"@menu-inline-toplevel-item-height": "30px",
 							"@menu-item-height": "30px",
 						},

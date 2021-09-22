@@ -1,7 +1,7 @@
 import "./HomeContent.less";
 import React, { useState } from "react";
 import { Layout, Button } from "antd";
-import { RightCircleOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { RightCircleFilled, ArrowRightOutlined } from "@ant-design/icons";
 
 const { Content } = Layout;
 
@@ -27,7 +27,7 @@ function HomeContent({ homeContentId, imgSrc, btnText }) {
 					onMouseEnter={onBtnHover}
 					onMouseLeave={onBtnHover}
 				>
-					{btnText} {buttonHover ? <RightCircleOutlined /> : <ArrowRightOutlined />}
+					{btnText} {buttonHover ? <RightCircleFilled /> : <ArrowRightOutlined />}
 				</Button>
 			</div>
 		</Content>
