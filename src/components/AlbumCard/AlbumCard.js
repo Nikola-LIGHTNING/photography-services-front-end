@@ -1,8 +1,8 @@
 import "./AlbumCard.less";
 
-function AlbumCard({ title, coverImageSrc }) {
+function AlbumCard({ title, coverImageSrc, onClick }) {
 	return (
-		<div className="albumCardContainer ant-card-hoverable">
+		<div className="albumCardContainer ant-card-hoverable" onClick={onClick}>
 			<div className="albumCardCoverContainer">
 				<img className="albumCardCoverImg" src={coverImageSrc.default} alt="" />
 			</div>

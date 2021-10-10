@@ -49,9 +49,9 @@ function Login() {
 							<Checkbox>Запомни ме</Checkbox>
 						</Form.Item>
 
-						<a className="loginFormForgotPassword" href="">
+						<Link className="loginFormForgotPassword" to="/register/forgotten_password">
 							Забравих паролата си
-						</a>
+						</Link>
 					</Form.Item>
 
 					<Form.Item>

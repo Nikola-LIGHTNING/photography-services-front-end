@@ -1,5 +1,7 @@
 .photographersLayout {
 	height: 100vh;
+	// height: calc(100vh - 64px); // We substract 64px because of the Navbar which is fixed
+	background: #dfdfdf;
 }
 
 .photographersPageSider {
@@ -8,24 +10,4 @@
 
 .ant-layout-sider-trigger {
 	border-right: 1px solid #f0f0f0;
-}
-
-.photographersDetails {
-	line-height: normal;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.photographerDetailsText {
-	padding-left: 24px;
-}
-
-.photographersDetailsImage {
-	max-width: 100px;
-	max-height: 100px;
-	justify-content: center;
-	object-fit: cover;
-	padding-bottom: 5px;
 }

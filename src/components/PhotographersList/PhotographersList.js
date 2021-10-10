@@ -1,25 +1,21 @@
 import "./PhotographersList.less";
-import { Card } from "antd";
-import { ArrowRightOutlined } from "@ant-design/icons";
-import AlbumCard from "../AlbumCard/AlbumCard";
+import PhotographerPortfolio from "../PhotographerPortfolio/PhotographerPortfolio";
 
-function PhotographersList() {
+function PhotographersList({ photographers, setSelectedPhotographer }) {
+	function buildPhotographerPortfolios() {
+		if (photographers) {
+			return photographers.map((photographer) => (
+				<PhotographerPortfolio photographer={photographer} setSelectedPhotographer={setSelectedPhotographer} />
+			));
+		}
+	}
+
 	return (
 		<div className="photographersListContainer">
 			{/* Make all photographerPortfolioContainers into a list and assign them a key */}
-			<div className="photographerPortfolioContainer">
-				<Card hoverable title="Фотограф Фотографов" className="photographerPortfolio">
-					<div className="portfolioContent">
-						<AlbumCard title="Сватбата на Галя и Никола" coverImageSrc={require("../../images/GN-821.jpg")} />
-						<AlbumCard title="Абитуриентски бал" coverImageSrc={require("../../images/bal.jpg")} />
-						<AlbumCard title="Кръщeнето на Иванчо" coverImageSrc={require("../../images/kryshtene.jpg")} />
-						<div className="portfolioShowMore">
-							<ArrowRightOutlined />
-						</div>
-					</div>
-				</Card>
-			</div>
-			<div className="photographerPortfolioContainer">
+			{buildPhotographerPortfolios()}
+
+			{/* <div className="photographerPortfolioContainer">
 				<Card hoverable title="Кольо Пирата" className="photographerPortfolio">
 					<div className="portfolioContent">
 						<AlbumCard title="Природа в Монтаска област" coverImageSrc={require("../../images/ogosta.jpg")} />
@@ -30,7 +26,7 @@ function PhotographersList() {
 						</div>
 					</div>
 				</Card>
-			</div>
+			</div> */}
 		</div>
 	);
 }

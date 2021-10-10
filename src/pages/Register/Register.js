@@ -1,6 +1,7 @@
 import "./Register.less";
 import Logo from "../../components/Logo/Logo";
 import { Form, Input, Select, Checkbox, Button } from "antd";
+import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -137,7 +138,7 @@ function Register() {
 						{...registerTailFormItemLayout}
 					>
 						<Checkbox>
-							Прочетох <a href="">условията </a> и се съгласявам с тях {/* the link should be a Ant Modal */}
+							Прочетох <Link>условията </Link> и се съгласявам с тях {/* the link should be a Ant Modal */}
 						</Checkbox>
 					</Form.Item>
 					<Form.Item className="registerBtn">

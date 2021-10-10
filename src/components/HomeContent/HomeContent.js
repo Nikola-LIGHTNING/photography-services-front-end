@@ -5,7 +5,7 @@ import { RightCircleFilled, ArrowRightOutlined } from "@ant-design/icons";
 
 const { Content } = Layout;
 
-function HomeContent({ homeContentId, imgSrc, btnText }) {
+function HomeContent({ homeContentId, imgSrc, btnText, onClick }) {
 	const [buttonHover, setButtonHover] = useState(false);
 
 	const onBtnHover = () => {
@@ -26,6 +26,7 @@ function HomeContent({ homeContentId, imgSrc, btnText }) {
 					ghost={buttonHover ? false : true}
 					onMouseEnter={onBtnHover}
 					onMouseLeave={onBtnHover}
+					onClick={onClick}
 				>
 					{btnText} {buttonHover ? <RightCircleFilled /> : <ArrowRightOutlined />}
 				</Button>
