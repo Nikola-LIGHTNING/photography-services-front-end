@@ -25,7 +25,7 @@ function PhotographerPortfolio({ photographer, setSelectedPhotographer }) {
 
 	function onPortfolioClick(event) {
 		console.log(event);
-		setSelectedPhotographer(photographer);
+		setSelectedPhotographer(photographer); // TODO Focus on photographer details tab after selecting a photographer
 	}
 
 	function onAlbumCardClick(event) {

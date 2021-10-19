@@ -1,5 +1,5 @@
 import "./Navbar.less";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Menu, Layout, Button, Modal } from "antd";
 import { LoginOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Logo from "../Logo/Logo";
@@ -7,7 +7,7 @@ import Logo from "../Logo/Logo";
 const { SubMenu, Item, ItemGroup } = Menu;
 const { Header } = Layout;
 
-function Navbar({ selectedTab, handleClick, categories }) {
+function Navbar({ selectedTab, categories }) {
 	const history = useHistory();
 
 	function showConfirmStayOnPage() {
@@ -31,7 +31,13 @@ function Navbar({ selectedTab, handleClick, categories }) {
 
 	function buildSubMenuCategories(categoryList) {
 		if (categoryList) {
-			return categoryList.map(({ value, key }) => <Menu.Item key={"photographers_" + key}>{value}</Menu.Item>);
+			return categoryList.map(({ value, key }) => (
+				<Menu.Item key={"services_" + key}>
+					<Link to={{ pathname: "/services", state: { selectedCategory: value, selectedTab: "services_" + key } }}>
+						{value}
+					</Link>
+				</Menu.Item>
+			));
 		}
 	}
 
@@ -45,13 +51,17 @@ function Navbar({ selectedTab, handleClick, categories }) {
 					Вход <LoginOutlined />
 				</Button>
 			</div>
-			<Menu className="navbarMenu" onClick={handleClick} selectedKeys={[selectedTab]} mode="horizontal">
-				<Item key="home">Начало</Item>
-				<Item key="photographers">Фотография</Item>
-				<SubMenu key="photo_services" title="Услуги">
+			<Menu className="navbarMenu" selectedKeys={[selectedTab]} mode="horizontal">
+				<Item key="home">
+					<Link to="/">Начало</Link>
+				</Item>
+				<SubMenu key="photo_services" title="Услуги" onTitleClick={() => history.push("/services")}>
 					<ItemGroup title="Отразяване на събития">{buildSubMenuCategories(categories.events)}</ItemGroup>
 					<ItemGroup title="Други">{buildSubMenuCategories(categories.other)}</ItemGroup>
 				</SubMenu>
+				<Item key="photographers">
+					<Link to="/photographers">Фотографи</Link>
+				</Item>
 				<Item key="contacts">
 					<a href="https://ant.design" target="_blank" rel="noopener noreferrer">
 						Контакти

@@ -1,0 +1,18 @@
+.servicesLayout {
+	height: 100vh;
+	// height: calc(100vh - 64px); // We substract 64px because of the Navbar which is fixed
+	background: #dfdfdf;
+}
+
+.servicesPageSider {
+	// The following properties keep the sider content fixed when scrolling down
+	position: fixed; // We remove the element from the normal document positioning flow
+	// top: 64px; // This is to make space for the navbar. Not needed since navbar is an Affix component
+	height: calc(100vh - 64px); // In order to make the sider as high as the screen (withouth the navbar)
+
+	border-right: 1px solid #f0f0f0;
+}
+
+.ant-layout-sider-trigger {
+	border-right: 1px solid #f0f0f0;
+}

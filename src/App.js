@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import Services from "./pages/Services/Services";
+import Photographers from "./pages/Photographers/Photographers";
 
 function App() {
 	return (
@@ -12,6 +14,8 @@ function App() {
 				<Route path={["/", "/home"]} component={Home} exact />
 				<Route path="/login" component={Login} exact />
 				<Route path="/register" component={Register} exact />
+				<Route path="/services" component={Services} exact />
+				<Route path="/photographers" component={Photographers} exact />
 				{/* <Route component={NotFoundPage} /> */}
 			</Switch>
 		</Router>
