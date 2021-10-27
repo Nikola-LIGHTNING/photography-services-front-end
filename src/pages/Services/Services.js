@@ -1,14 +1,16 @@
 import "./Services.less";
-import { Layout, Affix, BackTop, Menu, Checkbox } from "antd";
-import Navbar from "../../components/Navbar/Navbar";
 import { MoreOutlined, FilterOutlined, UserOutlined } from "@ant-design/icons";
-import PhotographersList from "../../components/PhotographersList/PhotographersList";
-import PhotographerDetails from "../../components/PhotographerDetails/PhotographerDetails";
+import { Layout, Affix, BackTop, Menu, Checkbox, Input, Select } from "antd";
 import { useState, useEffect, useReducer } from "react";
 import { animateScroll as scroll } from "react-scroll";
+import Navbar from "../../components/Navbar/Navbar";
+import PhotographersList from "../../components/PhotographersList/PhotographersList";
+import PhotographerDetails from "../../components/PhotographerDetails/PhotographerDetails";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
+const { Search } = Input;
+const { Option } = Select;
 
 function scrollToTop() {
 	scroll.scrollToTop({
@@ -50,6 +52,30 @@ function Services({ location }) {
 	const [selectedPhotographer, setSelectedPhotographer] = useState({});
 	const [selectedTab, setSelectedTab] = useState("services");
 	const [selectedCategories, dispatch] = useReducer(selectedCategoriesReducer, []);
+	const [searchTerm, setSearchTerm] = useState("");
+	const [selectedProvince, setSelectedProvince] = useState("Всички Области");
+
+	const searchPredicate = (photographer) => {
+		if (searchTerm.trim().length === 0) return true;
+
+		const firstNameLowerCase = photographer.firstName.toLowerCase();
+		const lastNameLowerCase = photographer.lastName.toLowerCase();
+		const searchTermLowerCase = searchTerm.toLowerCase();
+
+		return (
+			(firstNameLowerCase + " " + lastNameLowerCase).includes(searchTermLowerCase) ||
+			firstNameLowerCase.includes(searchTermLowerCase) ||
+			lastNameLowerCase.includes(searchTermLowerCase)
+		);
+	};
+
+	const categoriesPredicate = (photographer) => {
+		return selectedCategories.some((category) => photographer.categories.includes(category));
+	};
+
+	const provincePredicate = (photographer) => {
+		return photographer.workArea.includes(selectedProvince) || selectedProvince === "Всички Области";
+	};
 
 	// Load from backend API callback
 	const categories = {
@@ -98,7 +124,9 @@ function Services({ location }) {
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
 			workArea: ["София", "Монтана", "Враца"],
-			// 3 Img sources for album covers of every category
+			categories: ["Сватбена фотография"],
+			// 4 Img sources for album covers of every category
+			// This logic should be implemented where the albums for a photographer are fetched.
 			// when a category is selected we show it as the first album cover for a photographer
 			// we add it as the first element or remove it as if the category is deselected
 			// we fill the rest of the list (2 items) with categories which are selected
@@ -110,55 +138,119 @@ function Services({ location }) {
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
 			workArea: ["София", "Монтана", "Хасково"],
+			categories: ["Сватбена фотография"],
 		},
 		{
 			id: "fotografka.zdr",
-			firstName: "Фотографка",
-			lastName: "Фотографова",
+			firstName: "Никола",
+			lastName: "Цветков",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
 			workArea: ["София", "Монтана", "Хасково"],
+			categories: ["Сватбена фотография"],
 		},
 		{
 			id: "fotografka.kpr",
-			firstName: "Фотографка",
-			lastName: "Фотографова",
+			firstName: "Галя",
+			lastName: "Цветкова",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
 			workArea: ["София", "Монтана", "Хасково"],
+			categories: ["Сватбена фотография"],
 		},
 		{
 			id: "fotografka.dtb",
-			firstName: "Фотографка",
-			lastName: "Фотографова",
+			firstName: "Цветомир",
+			lastName: "Цветков",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
 			workArea: ["София", "Монтана", "Хасково"],
+			categories: ["Сватбена фотография", "Абитуриенти", "Фотокниги", "Кръщене"],
 		},
 		{
 			id: "fotografka.v",
-			firstName: "Фотографка",
-			lastName: "Фотографова",
+			firstName: "Владимир",
+			lastName: "Вазов",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
 			workArea: ["София", "Монтана", "Хасково"],
+			categories: ["Сватбена фотография"],
 		},
 		{
 			id: "fotografka.mhm",
-			firstName: "Фотографка",
-			lastName: "Фотографова",
+			firstName: "Емилия",
+			lastName: "Цветкова",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
 			workArea: ["София", "Монтана", "Хасково"],
+			categories: ["Сватбена фотография"],
 		},
 		{
 			id: "fotografka.uha",
-			firstName: "Фотографка",
-			lastName: "Фотографова",
+			firstName: "Верка",
+			lastName: "Златковска",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
 			workArea: ["София", "Монтана", "Хасково"],
+			categories: ["Сватбена фотография", "Фотокниги"],
 		},
+		{
+			id: "dlujnostno.lice",
+			firstName: "Длъжностно",
+			lastName: "Лице",
+			phoneNumber: "0877555333",
+			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			workArea: ["София", "Монтана", "Хасково", "Пловдив"],
+			categories: ["Сватбена фотография", "Фотокниги"],
+		},
+		{
+			id: "brave.redshirt",
+			firstName: "Червеноризец",
+			lastName: "Храбър",
+			phoneNumber: "0877555333",
+			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			workArea: ["София", "Монтана", "Хасково"],
+			categories: ["Сватбена фотография", "Фотокниги"],
+		},
+		{
+			id: "pii.kume.pii",
+			firstName: "Пий",
+			lastName: "Куме",
+			phoneNumber: "0877555333",
+			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			workArea: ["София", "Благоевград"],
+			categories: ["Сватбена фотография", "Фотокниги"],
+		},
+	];
+	const provinces = [
+		"Всички Области",
+		"Благоевград",
+		"Бургас",
+		"Варна",
+		"Велико Търново",
+		"Видин",
+		"Враца",
+		"Габрово",
+		"Добрич",
+		"Кърджали",
+		"Кюстендил",
+		"Ловеч",
+		"Монтана",
+		"Пазарджик",
+		"Перник",
+		"Плевен",
+		"Пловдив",
+		"Разград",
+		"Русе",
+		"Силистра",
+		"Сливен",
+		"Смолян",
+		"София",
+		"Стара Загора",
+		"Търговище",
+		"Хасково",
+		"Шумен",
+		"Ямбол",
 	];
 
 	// Runs only on changing props.location.state (when clicking on a different tab from the Navbar)
@@ -207,6 +299,14 @@ function Services({ location }) {
 		}
 	}
 
+	function onSearch(value, event) {
+		setSearchTerm(value);
+	}
+
+	function onSearchChange(event) {
+		onSearch(event.target.value, event);
+	}
+
 	return (
 		<Layout>
 			<BackTop duration="800" />
@@ -218,7 +318,7 @@ function Services({ location }) {
 					<Sider
 						className="servicesPageSider"
 						collapsedWidth="50"
-						width="260"
+						width="266"
 						collapsible="true"
 						theme="light"
 						collapsed={collapsed}
@@ -240,18 +340,52 @@ function Services({ location }) {
 							<SubMenu key="events" icon={<FilterOutlined />} title="Събития">
 								{buildSidebarCategories(categories.events)}
 							</SubMenu>
+
 							<SubMenu key="other" icon={<MoreOutlined />} title="Други">
 								{buildSidebarCategories(categories.other)}
 							</SubMenu>
 						</Menu>
 					</Sider>
 					<Content
+						className="servicesContent"
 						style={{
-							marginLeft: collapsed ? "50px" : "260px", // Adjust for the sider position: fixed
+							marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
 						}}
 					>
 						{/* Add another component here. It should have a search box and filters. */}
-						<PhotographersList photographers={photographers} setSelectedPhotographer={setSelectedPhotographer} />
+						<div className="photographerFilters">
+							<div className="photographerWorkAreaFilter">
+								<span className="photographerWorkArea">Oбласт за услугата:</span>
+								<Select
+									showSearch
+									defaultValue="Всички Области"
+									onChange={(province) => setSelectedProvince(province)}
+									notFoundContent="Не е намерена въведената област"
+									style={{ width: 165 }}
+								>
+									{provinces.map((province) => (
+										<Option value={province}>{province}</Option>
+									))}
+								</Select>
+							</div>
+							<div className="servicesSearchContainer">
+								<Search
+									className="servicesSearch"
+									placeholder="Търсене по име или две имена"
+									onChange={onSearchChange}
+									onSearch={onSearch}
+									enterButton
+									allowClear
+								/>
+							</div>
+						</div>
+						<PhotographersList
+							photographers={photographers
+								.filter(categoriesPredicate)
+								.filter(provincePredicate)
+								.filter(searchPredicate)}
+							setSelectedPhotographer={setSelectedPhotographer}
+						/>
 					</Content>
 				</Layout>
 			</Content>

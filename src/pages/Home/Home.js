@@ -2,11 +2,25 @@ import { Layout, Affix, BackTop } from "antd";
 import Navbar from "../../components/Navbar/Navbar";
 import HomeContent from "../../components/HomeContent/HomeContent";
 import Footer from "../../components/Footer/Footer";
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { animateScroll as scroll } from "react-scroll";
+
+function scrollToTop() {
+	scroll.scrollToTop({
+		duration: 500,
+		delay: 0,
+		smooth: "easeInOutQuint",
+	});
+}
 
 function Home() {
 	const history = useHistory();
+
+	// On page load scroll to top
+	useEffect(() => {
+		scrollToTop();
+	}, []);
 
 	function handleHomeContentBtnClick(category, categoryKey) {
 		history.push({ pathname: "/services", state: { selectedCategory: category, selectedTab: categoryKey } });
