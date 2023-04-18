@@ -1,10 +1,5 @@
-.servicesLayout {
-	height: 100vh;
-	// height: calc(100vh - 64px); // We substract 64px because of the Navbar which is fixed
-}
-
-.servicesContent {
-	background: rgb(223, 223, 223);
+.servicesPageLayout {
+	height: calc(100vh - 64px); // We substract 64px because of the Navbar which is fixed
 }
 
 .servicesPageSider {
@@ -16,7 +11,11 @@
 	border-right: 1px solid #f0f0f0;
 }
 
-.photographerFilters {
+.servicesPageContent {
+	background: rgb(223, 223, 223);
+}
+
+.servicesPagePhotographerFilters {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -26,16 +25,16 @@
 	background-color: white;
 }
 
-.servicesSearchContainer {
-	width: 350px;
-}
-
-.servicesSearch {
-	border-radius: 20%;
-}
-
-.photographerWorkArea {
+.servicesPagePhotographerWorkArea {
 	padding-left: 8px;
 	padding-right: 10px;
 	font-weight: 480;
+}
+
+.servicesPageSearchContainer {
+	width: 350px;
+}
+
+.servicesPageSearch {
+	border-radius: 20%;
 }

@@ -1,0 +1,8 @@
+.profileSider {
+	// The following properties keep the sider content fixed when scrolling down
+	position: fixed; // We remove the element from the normal document positioning flow
+	// top: 64px; // This is to make space for the navbar. Not needed since navbar is an Affix component
+	height: calc(100vh - 112px); // In order to make the sider as high as the screen (withouth the navbar and the trigger)
+	overflow: auto;
+	border-right: 1px solid #f0f0f0;
+}

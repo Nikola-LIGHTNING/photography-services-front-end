@@ -5,17 +5,18 @@ import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
-function Register() {
-	const passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,40}$"); // From herehttps://ihateregex.io/expr/password/
-	const phoneRegex = new RegExp("^0[0-9]{9}$");
+const passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,40}$"); // From here https://ihateregex.io/expr/password/
+const phoneRegex = new RegExp("^0[0-9]{9}$");
 
-	const registerFormItemLayout = {
-		labelCol: { span: 10 },
-		wrapperCol: { span: 13 },
-	};
-	const registerTailFormItemLayout = {
-		wrapperCol: { span: 24, offset: 4 },
-	};
+const registerFormItemLayout = {
+  labelCol: { span: 10 },
+  wrapperCol: { span: 13 },
+};
+const registerTailFormItemLayout = {
+  wrapperCol: { span: 24, offset: 4 },
+};
+
+function Register() {
 
 	const onFinish = (values) => {
 		console.log("Received values of form: ", values);
@@ -41,7 +42,7 @@ function Register() {
 						rules={[
 							{
 								type: "email",
-								message: "Въвели сте невалиден E-mail!",
+								message: "Моля, въведете валиден E-mail!",
 							},
 							{
 								required: true,

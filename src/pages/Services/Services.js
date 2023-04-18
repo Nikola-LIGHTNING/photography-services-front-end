@@ -77,7 +77,7 @@ function Services({ location }) {
 		return photographer.workArea.includes(selectedProvince) || selectedProvince === "Всички Области";
 	};
 
-	// Load from backend API callback
+	// Load from backend API callback. Use a ServiceClass to encapsulate the backend calls logic and use that ServiceClass here.
 	const categories = {
 		events: [
 			{
@@ -123,6 +123,7 @@ function Services({ location }) {
 			lastName: "Фотографов",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Мъж",
 			workArea: ["София", "Монтана", "Враца"],
 			categories: ["Сватбена фотография"],
 			// 4 Img sources for album covers of every category
@@ -137,6 +138,7 @@ function Services({ location }) {
 			lastName: "Фотографова",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Жена",
 			workArea: ["София", "Монтана", "Хасково"],
 			categories: ["Сватбена фотография"],
 		},
@@ -146,6 +148,7 @@ function Services({ location }) {
 			lastName: "Цветков",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Мъж",
 			workArea: ["София", "Монтана", "Хасково"],
 			categories: ["Сватбена фотография"],
 		},
@@ -155,6 +158,7 @@ function Services({ location }) {
 			lastName: "Цветкова",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Жена",
 			workArea: ["София", "Монтана", "Хасково"],
 			categories: ["Сватбена фотография"],
 		},
@@ -164,6 +168,7 @@ function Services({ location }) {
 			lastName: "Цветков",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Мъж",
 			workArea: ["София", "Монтана", "Хасково"],
 			categories: ["Сватбена фотография", "Абитуриенти", "Фотокниги", "Кръщене"],
 		},
@@ -173,6 +178,7 @@ function Services({ location }) {
 			lastName: "Вазов",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Мъж",
 			workArea: ["София", "Монтана", "Хасково"],
 			categories: ["Сватбена фотография"],
 		},
@@ -182,6 +188,7 @@ function Services({ location }) {
 			lastName: "Цветкова",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Жена",
 			workArea: ["София", "Монтана", "Хасково"],
 			categories: ["Сватбена фотография"],
 		},
@@ -191,6 +198,7 @@ function Services({ location }) {
 			lastName: "Златковска",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Жена",
 			workArea: ["София", "Монтана", "Хасково"],
 			categories: ["Сватбена фотография", "Фотокниги"],
 		},
@@ -200,6 +208,7 @@ function Services({ location }) {
 			lastName: "Лице",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Мъж",
 			workArea: ["София", "Монтана", "Хасково", "Пловдив"],
 			categories: ["Сватбена фотография", "Фотокниги"],
 		},
@@ -209,6 +218,7 @@ function Services({ location }) {
 			lastName: "Храбър",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Мъж",
 			workArea: ["София", "Монтана", "Хасково"],
 			categories: ["Сватбена фотография", "Фотокниги"],
 		},
@@ -218,6 +228,7 @@ function Services({ location }) {
 			lastName: "Куме",
 			phoneNumber: "0877555333",
 			profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+			gender: "Мъж",
 			workArea: ["София", "Благоевград"],
 			categories: ["Сватбена фотография", "Фотокниги"],
 		},
@@ -314,7 +325,7 @@ function Services({ location }) {
 				<Navbar selectedTab={selectedTab} categories={categories} />
 			</Affix>
 			<Content>
-				<Layout className="servicesLayout">
+				<Layout className="servicesPageLayout">
 					<Sider
 						className="servicesPageSider"
 						collapsedWidth="50"
@@ -324,11 +335,7 @@ function Services({ location }) {
 						collapsed={collapsed}
 						onCollapse={collapseSider}
 					>
-						<Menu
-							className="servicesSiderMenu"
-							mode="inline"
-							defaultOpenKeys={["photographerDetails", "events", "other"]}
-						>
+						<Menu mode="inline" defaultOpenKeys={["photographerDetails", "events", "other"]}>
 							{/* Display/Render the submenu item below only if there is a selectedPhotographer.*/}
 							{!objectIsEmpty(selectedPhotographer) && (
 								<SubMenu key="photographerDetails" icon={<UserOutlined />} title={selectedPhotographer.firstName}>
@@ -347,15 +354,14 @@ function Services({ location }) {
 						</Menu>
 					</Sider>
 					<Content
-						className="servicesContent"
+						className="servicesPageContent"
 						style={{
 							marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
 						}}
 					>
-						{/* Add another component here. It should have a search box and filters. */}
-						<div className="photographerFilters">
-							<div className="photographerWorkAreaFilter">
-								<span className="photographerWorkArea">Oбласт за услугата:</span>
+						<div className="servicesPagePhotographerFilters">
+							<div className="servicesPagePhotographerWorkAreaFilter">
+								<span className="servicesPagePhotographerWorkArea">Oбласт за услугата:</span>
 								<Select
 									showSearch
 									defaultValue="Всички Области"
@@ -364,13 +370,15 @@ function Services({ location }) {
 									style={{ width: 165 }}
 								>
 									{provinces.map((province) => (
-										<Option value={province}>{province}</Option>
+										<Option key={province} value={province}>
+											{province}
+										</Option>
 									))}
 								</Select>
 							</div>
-							<div className="servicesSearchContainer">
+							<div className="servicesPageSearchContainer">
 								<Search
-									className="servicesSearch"
+									className="servicesPageSearch"
 									placeholder="Търсене по име или две имена"
 									onChange={onSearchChange}
 									onSearch={onSearch}

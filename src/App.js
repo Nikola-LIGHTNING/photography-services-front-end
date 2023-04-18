@@ -6,6 +6,8 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Services from "./pages/Services/Services";
 import Photographers from "./pages/Photographers/Photographers";
+import Profile from "./pages/Profile/Profile";
+import Unavailable from "./pages/Unavailable/Unavailable";
 
 function App() {
 	return (
@@ -16,6 +18,8 @@ function App() {
 				<Route path="/register" component={Register} exact />
 				<Route path="/services" component={Services} exact />
 				<Route path="/photographers" component={Photographers} exact />
+				<Route path="/photographers/:photographerId" component={Profile} exact />
+				<Route path="/info/unknownerror" component={Unavailable} exact />
 				{/* <Route component={NotFoundPage} /> */}
 			</Switch>
 		</Router>
