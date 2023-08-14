@@ -1,4 +1,4 @@
-import { Layout, Affix, BackTop } from "antd";
+import { Layout, Affix, FloatButton } from "antd";
 import Navbar from "../../components/Navbar/Navbar";
 import HomeContent from "../../components/HomeContent/HomeContent";
 import Footer from "../../components/Footer/Footer";
@@ -69,7 +69,7 @@ function Home() {
 	return (
 		<div>
 			<Layout>
-				<BackTop duration="800" />
+				<FloatButton.BackTop duration="800" />
 				<Affix>
 					<Navbar selectedTab="home" categories={categories} />
 				</Affix>

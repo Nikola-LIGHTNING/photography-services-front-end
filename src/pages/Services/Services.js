@@ -1,6 +1,6 @@
 import "./Services.less";
 import { MoreOutlined, FilterOutlined, UserOutlined } from "@ant-design/icons";
-import { Layout, Affix, BackTop, Menu, Checkbox, Input, Select } from "antd";
+import { Layout, Affix, FloatButton, Menu, Checkbox, Input, Select } from "antd";
 import { useState, useEffect, useReducer } from "react";
 import { animateScroll as scroll } from "react-scroll";
 import Navbar from "../../components/Navbar/Navbar";
@@ -320,7 +320,7 @@ function Services({ location }) {
 
 	return (
 		<Layout>
-			<BackTop duration="800" />
+			<FloatButton.BackTop duration="800" />
 			<Affix>
 				<Navbar selectedTab={selectedTab} categories={categories} />
 			</Affix>
@@ -355,9 +355,9 @@ function Services({ location }) {
 					</Sider>
 					<Content
 						className="servicesPageContent"
-						style={{
-							marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
-						}}
+						// style={{
+						// 	marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
+						// }}
 					>
 						<div className="servicesPagePhotographerFilters">
 							<div className="servicesPagePhotographerWorkAreaFilter">

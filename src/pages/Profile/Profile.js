@@ -4,7 +4,7 @@ import ProfileSider from "../../components/ProfileSider/ProfileSider";
 import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import TextSection from "../../components/TextSection/TextSection";
 import ReviewSection from "../../components/ReviewSection/ReviewSection";
-import { Layout, Affix, BackTop } from "antd";
+import { Layout, Affix, FloatButton } from "antd";
 import { useHistory } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { ReviewsService } from "../../services/ReviewsService";
@@ -80,7 +80,7 @@ function Profile({ location }) {
 
 	return (
 		<Layout>
-			<BackTop duration="800" />
+			<FloatButton.BackTop duration="800" />
 			<Affix>
 				<Navbar selectedTab={"photographers"} categories={categories} />
 			</Affix>
@@ -94,9 +94,9 @@ function Profile({ location }) {
 					/>
 					<Content
 						className="profilePageContent"
-						style={{
-							marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
-						}}
+						// style={{
+						// 	marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
+						// }}
 					>
 						<ProfileDetails photographer={photographer} reviews={reviews} />
 						<TextSection title="За мен" text={aboutMe.text} />
