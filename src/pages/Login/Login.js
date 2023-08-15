@@ -1,8 +1,9 @@
 import "./Login.less";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import Logo from "../../components/Logo/Logo";
 import { Link } from "react-router-dom";
+import Logo from "../../components/Logo/Logo";
+import cover from '../../images/ogosta_3.jpg';
 
 function Login() {
 	const formRules = {
@@ -23,7 +24,7 @@ function Login() {
 	return (
 		<div className="loginContainer">
 			<div className="loginBackgroundContainer">
-				<img className="loginBackgroundImage" src={require("../../images/ogosta_3.jpg").default} alt="" />
+				<img className="loginBackgroundImage" src={cover} alt="" />
 			</div>
 			<div className="loginFormContainer">
 				<div className="loginFormTitle">

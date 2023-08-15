@@ -15,7 +15,7 @@ function HomeContent({ homeContentId, imgSrc, btnText, onClick }) {
 	return (
 		<Content id={homeContentId} className="homeContent">
 			<div className="homeBackgroundContainer">
-				<img className="homeBackgroundImage" src={imgSrc.default} alt="" />
+				<img className="homeBackgroundImage" src={imgSrc} alt="" />
 			</div>
 			<div className="homeContentButtonContainer">
 				<Button

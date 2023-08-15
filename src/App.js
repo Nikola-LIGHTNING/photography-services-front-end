@@ -20,6 +20,8 @@ function App() {
 	const antDesignToken = {
 		// Seed Tokens
 		colorPrimary: '#52c41a',
+		colorLink: '#52c41a',
+		colorInfo: '#52c41a',
 		fontSize: 16,
 		
 		// Alias Tokens

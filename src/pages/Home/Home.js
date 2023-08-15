@@ -5,6 +5,10 @@ import Footer from "../../components/Footer/Footer";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
+import coverOne from '../../images/GN-821.jpg';
+import coverTwo from '../../images/bal.jpg';
+import coverThree from '../../images/kryshtene.jpg';
+import coverFour from '../../images/ogosta_3.jpg';
 
 function scrollToTop() {
 	scroll.scrollToTop({
@@ -76,25 +80,25 @@ function Home() {
 
 				<HomeContent
 					homeContentId="homeWeddingContent"
-					imgSrc={require("../../images/GN-821.jpg")}
+					imgSrc={coverOne}
 					btnText="Сватбена фотография"
 					onClick={() => handleHomeContentBtnClick("Сватбена фотография", "services_wedding")}
 				/>
 				<HomeContent
 					homeContentId="homePromContent"
-					imgSrc={require("../../images/bal.jpg")}
+					imgSrc={coverTwo}
 					btnText="Абитуриенти"
 					onClick={() => handleHomeContentBtnClick("Абитуриенти", "services_prom")}
 				/>
 				<HomeContent
 					homeContentId="homeBaptismContent"
-					imgSrc={require("../../images/kryshtene.jpg")}
+					imgSrc={coverThree}
 					btnText="Кръщене"
 					onClick={() => handleHomeContentBtnClick("Кръщене", "services_baptism")}
 				/>
 				<HomeContent
 					homeContentId="homeFamilyContent"
-					imgSrc={require("../../images/family3.jpg")}
+					imgSrc={coverFour}
 					btnText="Семейна фотосесия"
 					onClick={() => handleHomeContentBtnClick("Семейна фотосесия", "services_family")}
 				/>

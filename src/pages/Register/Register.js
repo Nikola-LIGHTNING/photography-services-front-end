@@ -2,6 +2,7 @@ import "./Register.less";
 import Logo from "../../components/Logo/Logo";
 import { Form, Input, Select, Checkbox, Button } from "antd";
 import { Link } from "react-router-dom";
+import cover from '../../images/ogosta_2.jpg';
 
 const { Option } = Select;
 
@@ -25,7 +26,7 @@ function Register() {
 	return (
 		<div className="registerContainer">
 			<div className="registerBackgroundContainer">
-				<img className="registerBackgroundImage" src={require("../../images/ogosta_2.jpg").default} alt="" />
+				<img className="registerBackgroundImage" src={cover} alt="" />
 			</div>
 			<div className="registerFormContainer">
 				<div className="registerFormTitle">
