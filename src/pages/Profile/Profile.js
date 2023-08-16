@@ -5,7 +5,7 @@ import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import TextSection from "../../components/TextSection/TextSection";
 import ReviewSection from "../../components/ReviewSection/ReviewSection";
 import { Layout, Affix, FloatButton } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { ReviewsService } from "../../services/ReviewsService";
 import { PeopleService } from "../../services/PeopleService";
@@ -22,7 +22,8 @@ const peopleService = new PeopleService();
 const categoriesService = new CategoriesService();
 const aboutMeService = new AboutMeService();
 
-function Profile({ location }) {
+function Profile() {
+	const location = useLocation();
 	const navigate = useNavigate();
 	const [photographer, setPhotographer] = useState({});
 	const [categories, setCategories] = useState({});
@@ -94,9 +95,9 @@ function Profile({ location }) {
 					/>
 					<Content
 						className="profilePageContent"
-						// style={{
-						// 	marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
-						// }}
+					// style={{
+					// 	marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
+					// }}
 					>
 						<ProfileDetails photographer={photographer} reviews={reviews} />
 						<TextSection title="За мен" text={aboutMe.text} />
