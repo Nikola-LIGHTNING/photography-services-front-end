@@ -1,5 +1,5 @@
 import "./Navbar.less";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, Layout, Button, Modal } from "antd";
 import { LoginOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Logo from "../Logo/Logo";
@@ -8,7 +8,7 @@ const { SubMenu, Item, ItemGroup } = Menu;
 const { Header } = Layout;
 
 function Navbar({ selectedTab, categories }) {
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	function showConfirmStayOnPage() {
 		Modal.confirm({
@@ -24,7 +24,7 @@ function Navbar({ selectedTab, categories }) {
 			cancelText: "Отказ",
 
 			onOk() {
-				history.push("/login");
+				navigate("/login");
 			},
 		});
 	}
@@ -33,7 +33,7 @@ function Navbar({ selectedTab, categories }) {
 		if (categoryList) {
 			return categoryList.map(({ value, key }) => (
 				<Menu.Item key={"services_" + key}>
-					<Link to={{ pathname: "/services", state: { selectedCategory: value, selectedTab: "services_" + key } }}>
+					<Link to="/services" state={{ selectedCategory: value, selectedTab: "services_" + key }} >
 						{value}
 					</Link>
 				</Menu.Item>
@@ -55,7 +55,7 @@ function Navbar({ selectedTab, categories }) {
 				<Item key="home">
 					<Link to="/">Начало</Link>
 				</Item>
-				<SubMenu key="photo_services" title="Услуги" onTitleClick={() => history.push("/services")}>
+				<SubMenu key="photo_services" title="Услуги" onTitleClick={() => navigate("/services")}>
 					<ItemGroup title="Отразяване на събития">{buildSubMenuCategories(categories.events)}</ItemGroup>
 					<ItemGroup title="Други">{buildSubMenuCategories(categories.other)}</ItemGroup>
 				</SubMenu>

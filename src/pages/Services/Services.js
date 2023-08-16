@@ -2,6 +2,7 @@ import "./Services.less";
 import { MoreOutlined, FilterOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Affix, FloatButton, Menu, Checkbox, Input, Select } from "antd";
 import { useState, useEffect, useReducer } from "react";
+import { useLocation } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
 import Navbar from "../../components/Navbar/Navbar";
 import PhotographersList from "../../components/PhotographersList/PhotographersList";
@@ -47,7 +48,8 @@ function objectIsEmpty(object) {
 	return false;
 }
 
-function Services({ location }) {
+function Services() {
+	const location = useLocation()
 	const [collapsed, setCollapsed] = useState(false);
 	const [selectedPhotographer, setSelectedPhotographer] = useState({});
 	const [selectedTab, setSelectedTab] = useState("services");

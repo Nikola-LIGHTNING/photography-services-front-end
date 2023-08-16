@@ -1,5 +1,5 @@
 import "./App.less";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ConfigProvider } from 'antd';
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -23,7 +23,7 @@ function App() {
 		colorLink: '#52c41a',
 		colorInfo: '#52c41a',
 		fontSize: 16,
-		
+
 		// Alias Tokens
 		// colorBgContainer: '#f22ffed',
 
@@ -39,16 +39,18 @@ function App() {
 	return (
 		<ConfigProvider theme={{ token: antDesignToken }}>
 			<Router>
-				<Switch>
-					<Route path={["/", "/home"]} component={Home} exact />
-					<Route path="/login" component={Login} exact />
-					<Route path="/register" component={Register} exact />
-					<Route path="/services" component={Services} exact />
-					<Route path="/photographers" component={Photographers} exact />
-					<Route path="/photographers/:photographerId" component={Profile} exact />
-					<Route path="/info/unknownerror" component={Unavailable} exact />
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/home" element={<Home />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/services" element={<Services />} />
+					<Route path="/photographers" element={<Photographers />} >
+						<Route path=":photographerId" element={<Profile />} />
+					</Route>
+					<Route path="/info/unknownerror" element={<Unavailable />} />
 					{/* <Route component={NotFoundPage} /> */}
-				</Switch>
+				</Routes>
 			</Router>
 		</ConfigProvider>
 	);

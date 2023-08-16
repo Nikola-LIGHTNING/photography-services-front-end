@@ -5,7 +5,7 @@ import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import TextSection from "../../components/TextSection/TextSection";
 import ReviewSection from "../../components/ReviewSection/ReviewSection";
 import { Layout, Affix, FloatButton } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { ReviewsService } from "../../services/ReviewsService";
 import { PeopleService } from "../../services/PeopleService";
@@ -23,7 +23,7 @@ const categoriesService = new CategoriesService();
 const aboutMeService = new AboutMeService();
 
 function Profile({ location }) {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const [photographer, setPhotographer] = useState({});
 	const [categories, setCategories] = useState({});
 	const [aboutMe, setAboutMe] = useState({});
@@ -70,7 +70,7 @@ function Profile({ location }) {
 
 	function validateResponseStatus(response, validStatusesList) {
 		if (!hasValidateResponseStatus(response, validStatusesList)) {
-			history.push({ pathname: "/info/unknownerror" });
+			navigate("/info/unknownerror");
 		}
 	}
 

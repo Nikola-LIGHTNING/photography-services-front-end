@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import HomeContent from "../../components/HomeContent/HomeContent";
 import Footer from "../../components/Footer/Footer";
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
 import coverOne from '../../images/GN-821.jpg';
 import coverTwo from '../../images/bal.jpg';
@@ -19,7 +19,7 @@ function scrollToTop() {
 }
 
 function Home() {
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	// On page load scroll to top
 	useEffect(() => {
@@ -27,7 +27,7 @@ function Home() {
 	}, []);
 
 	function handleHomeContentBtnClick(category, categoryKey) {
-		history.push({ pathname: "/services", state: { selectedCategory: category, selectedTab: categoryKey } });
+		navigate("/services", { state: { selectedCategory: category, selectedTab: categoryKey } });
 	}
 
 	// Load from backend API callback

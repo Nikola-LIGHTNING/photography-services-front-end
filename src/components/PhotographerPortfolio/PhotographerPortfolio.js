@@ -1,14 +1,14 @@
 import "./PhotographerPortfolio.less";
 import { Card } from "antd";
 import AlbumCard from "../AlbumCard/AlbumCard";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import coverOne from '../../images/GN-821.jpg';
 import coverTwo from '../../images/bal.jpg';
 import coverThree from '../../images/kryshtene.jpg';
 import coverFour from '../../images/ogosta_3.jpg';
 
 function PhotographerPortfolio({ photographer, setSelectedPhotographer }) {
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	// Get use callback to backend and then use map to setCoverImageSrc to each album. Empty array if callback fails
 	const albums = [
@@ -58,7 +58,7 @@ function PhotographerPortfolio({ photographer, setSelectedPhotographer }) {
 				key={album.urlIdentifier}
 				title={album.title}
 				coverImageSrc={album.coverImageSrc}
-				onClick={() => history.push(`/photographers/${photographer.id}/albums/${album.urlIdentifier}`)}
+				onClick={() => navigate(`/photographers/${photographer.id}/albums/${album.urlIdentifier}`)}
 			/>
 		));
 	}
