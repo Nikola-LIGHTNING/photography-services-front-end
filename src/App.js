@@ -45,9 +45,8 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/services" element={<Services />} />
-					<Route path="/photographers" element={<Photographers />} >
-						<Route path=":photographerId" element={<Profile />} />
-					</Route>
+					<Route path="/photographers" element={<Photographers />} />
+					<Route path="/photographers/:photographerId" element={<Profile />} />
 					<Route path="/info/unknownerror" element={<Unavailable />} />
 					{/* <Route component={NotFoundPage} /> */}
 				</Routes>
