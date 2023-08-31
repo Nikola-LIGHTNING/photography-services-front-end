@@ -1,4 +1,4 @@
-const CracoLessPlugin = require("craco-less");
+const CracoLessPlugin = require("craco-less"); // Documentation for this plugin https://github.com/DocSpring/craco-less#usage
 
 module.exports = {
 	plugins: [
@@ -7,14 +7,6 @@ module.exports = {
 			options: {
 				lessLoaderOptions: {
 					lessOptions: {
-						modifyVars: {
-							"@primary-color": "#52c41a",
-							"@font-size-base": "16px",
-							// "@menu-item-font-size": "16px",
-							"@menu-inline-submenu-bg": "white",
-							"@menu-inline-toplevel-item-height": "30px",
-							"@menu-item-height": "30px",
-						},
 						javascriptEnabled: true,
 					},
 				},

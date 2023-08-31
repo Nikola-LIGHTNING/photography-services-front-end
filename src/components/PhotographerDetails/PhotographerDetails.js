@@ -20,15 +20,15 @@ function PhotographerDetails({ photographer }) {
 					{photographer.workArea.reduce((prev, curr) => prev + ", " + curr)}
 				</h5>
 				<h5>
-					<Link to={{ pathname: `/photographers/${photographer.id}`, state: { selectedPage: "profile" } }}>Профил</Link>
+					<Link to={{ pathname: `/photographers/${photographer.id}` }} state={{ selectedPage: "profile" }}>Профил</Link>
 				</h5>
 				<h5>
-					<Link to={{ pathname: `/photographers/${photographer.id}/albums`, state: { selectedPage: "albums" } }}>
+					<Link to={{ pathname: `/photographers/${photographer.id}/albums` }} state={{ selectedPage: "albums" }}>
 						Албуми
 					</Link>
 				</h5>
 				<h5>
-					<Link to={{ pathname: `/photographers/${photographer.id}/prices`, state: { selectedPage: "prices" } }}>
+					<Link to={{ pathname: `/photographers/${photographer.id}/prices` }} state={{ selectedPage: "prices" }}>
 						Ценоразпис
 					</Link>
 				</h5>

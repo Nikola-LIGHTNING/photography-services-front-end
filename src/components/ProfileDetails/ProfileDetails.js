@@ -1,6 +1,7 @@
 import "./ProfileDetails.less";
 import { Image, Rate } from "antd";
 import React from "react";
+import bulgariaFlag from '../../images/bulgariaflag.svg';
 
 function ProfileDetails({ photographer, reviews }) {
 	const reducer = (previousValue, currentValue) => previousValue + currentValue.rating;
@@ -16,7 +17,7 @@ function ProfileDetails({ photographer, reviews }) {
 					{photographer.firstName + " " + photographer.lastName}
 					<img
 						className="profileDetailsCountryImg"
-						src={require("../../images/bulgariaflag.svg").default}
+						src={bulgariaFlag}
 						alt="Failed to load"
 					/>
 				</div>
