@@ -1,4 +1,4 @@
-import "./Photographers.less";
+// import "./Photographers.less";
 import React from "react";
 
 function Photographers() {
