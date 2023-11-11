@@ -28,7 +28,7 @@ function PhotographerDetails({ photographer }) {
 					</Link>
 				</h5>
 				<h5>
-					<Link to={{ pathname: `/photographers/${photographer.id}/prices` }} state={{ selectedPage: "prices" }}>
+					<Link to={{ pathname: `/photographers/${photographer.id}/pricing` }} state={{ selectedPage: "pricing" }}>
 						Ценоразпис
 					</Link>
 				</h5>

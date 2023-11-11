@@ -7,6 +7,7 @@ import Register from "./pages/Register/Register";
 import Services from "./pages/Services/Services";
 import Photographers from "./pages/Photographers/Photographers";
 import Profile from "./pages/Profile/Profile";
+import Pricing from "./pages/Pricing/Pricing"
 import Unavailable from "./pages/Unavailable/Unavailable";
 
 /**
@@ -47,6 +48,7 @@ function App() {
 					<Route path="/services" element={<Services />} />
 					<Route path="/photographers" element={<Photographers />} />
 					<Route path="/photographers/:photographerId" element={<Profile />} />
+					<Route path="/photographers/:photographerId/pricing" element={<Pricing />} />
 					<Route path="/info/unknownerror" element={<Unavailable />} />
 					{/* <Route component={NotFoundPage} /> */}
 				</Routes>

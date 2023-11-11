@@ -29,8 +29,8 @@ function ProfileSider({ collapsed, onCollapse, selectedPage, photographer }) {
 						Албуми
 					</Link>
 				</Menu.Item>
-				<Menu.Item key="prices" icon={<SolutionOutlined />}>
-					<Link to={{ pathname: `/photographers/${photographer.id}/prices` }} state={{ selectedPage: "prices" }}>
+				<Menu.Item key="pricing" icon={<SolutionOutlined />}>
+					<Link to={{ pathname: `/photographers/${photographer.id}/pricing` }} state={{ selectedPage: "pricing" }}>
 						Ценоразпис
 					</Link>
 				</Menu.Item>
