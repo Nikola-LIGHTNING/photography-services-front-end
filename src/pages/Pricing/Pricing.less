@@ -1,9 +1,23 @@
 .pricingPageLayout {
 	height: calc(100vh - 64px); // We substract 64px because of the Navbar which is fixed
+	background: white;
 }
 
 .pricingPageContent {
-	background: white;
+	width: 100%;
+	height: 100%;
+}
+
+.pricingListContainer {
+	margin-top: 10%;
+	
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly; // this configuration is aligning the position of the cards in the center of the container
+
+	gap: 1%;
+	
+	height: 100%;
 }
 
 .pricingPageContentFooter {

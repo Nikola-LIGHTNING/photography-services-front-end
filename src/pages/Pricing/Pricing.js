@@ -1,17 +1,13 @@
 import "./Pricing.less";
 import Navbar from "../../components/Navbar/Navbar";
 import ProfileSider from "../../components/ProfileSider/ProfileSider";
-import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
-import TextSection from "../../components/TextSection/TextSection";
-import ReviewSection from "../../components/ReviewSection/ReviewSection";
 import { Layout, Affix, FloatButton } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useReducer, useEffect } from "react";
-import { ReviewsService } from "../../services/ReviewsService";
+import { useState, useEffect } from "react";
 import { PeopleService } from "../../services/PeopleService";
 import { CategoriesService } from "../../services/CategoriesService";
-import { AboutMeService } from "../../services/AboutMeService";
 import { hasValidateResponseStatus } from "../../utils/ValidationUtils";
+import PriceCard from "../../components/PriceCard/PriceCard";
 
 const PHOTOGRAPHER_CATEGORY = "photographer";
 
@@ -19,16 +15,26 @@ const { Content } = Layout;
 
 const peopleService = new PeopleService();
 const categoriesService = new CategoriesService();
-const aboutMeService = new AboutMeService();
 
 function Pricing() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [photographer, setPhotographer] = useState({});
 	const [categories, setCategories] = useState({});
-	const [aboutMe, setAboutMe] = useState({});
 	const [collapsed, setCollapsed] = useState(false);
-	const [reviews, dispatch] = useReducer(reviewsReducer, []);
+
+	const price = {
+		title: "Фотография и видео",
+		price: "1000",
+		currency: "лв.",
+		description: "Качествено заснемане от един фотограф",
+		features: [
+			"1000 снимки",
+			"10 часа",
+			"По 200 лева за всеки допълнителен час преди полунощ",
+			"По 300 лева за всеки допълнителен час след полунощ",
+		]
+	}
 
 	// Run only when component mounts to fetch required data
 	useEffect(() => {
@@ -43,13 +49,6 @@ function Pricing() {
 			setCategories(responses[1].data);
 		});
 
-		Promise.all([
-			aboutMeService.getAboutMeByPersonId(photographer.id),
-		]).then((responses) => {
-			responses.forEach((response) => validateResponseStatus(response, [200]));
-			setAboutMe(responses[0].data);
-			dispatch({ type: "initialise", item: responses[1].data });
-		});
 	}, []);
 
 	function validateResponseStatus(response, validStatusesList) {
@@ -73,13 +72,17 @@ function Pricing() {
 					<ProfileSider
 						collapsed={collapsed}
 						onCollapse={collapseSider}
-						selectedPage="profile"
+						selectedPage="pricing"
 						photographer={photographer}
 					/>
 					<Content className="pricingPageContent">
-						<ProfileDetails photographer={photographer} reviews={reviews} />
-						<TextSection title="За мен" text={aboutMe.text} />
-						<ReviewSection person={photographer} reviews={reviews} reviewDispatcher={dispatch} />
+						<div className="pricingListContainer">
+							<PriceCard price={price}/>
+							<PriceCard price={price}/>
+							<PriceCard price={price}/>
+							<PriceCard price={price}/>
+							<PriceCard price={price}/>
+						</div>
 						<div className="pricingPageContentFooter" />
 					</Content>
 				</Layout>

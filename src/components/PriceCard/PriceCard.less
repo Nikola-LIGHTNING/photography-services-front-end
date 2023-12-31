@@ -1,0 +1,89 @@
+.priceCardContainer {
+	// From parent container
+	width: 20%; 
+	height: 70%;
+	
+	min-width: 150px;
+	max-width: 300px;		
+	max-height: 700px;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	// white-space: nowrap;
+
+	border: 1px solid rgb(221, 213, 213);
+}
+
+.priceCardUpperContainer {
+	height: 50%; // From parent container
+}
+
+.priceCardTitle {
+	height: 25%;
+
+	// Center the text in the middle of the container (vertical and horizontal centering)
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+	text-align: center;
+	
+	// Copy pasted from https://www.box.com/en-gb/pricing/business
+	font-weight: 700;
+    font-style: normal;
+    font-size: 1.25rem;
+    line-height: 2rem;
+}
+
+.priceCardPrice {
+	height: 25%;
+	
+	// Center the text in the middle of the container (vertical and horizontal centering)
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+	text-align: center;
+
+	// Copy pasted from https://www.box.com/en-gb/pricing/business
+	font-weight: bold;
+	font-size: 2.25rem;
+    line-height: 3rem;
+}
+
+.priceCardButton {
+	height: 30%;
+	padding-left: 15%;
+	padding-right: 15%;
+
+	// Center the text in the middle of the container (vertical and horizontal centering)
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+}
+
+.priceCardDescription {
+	height: 15%;
+	padding-bottom: 5%;
+
+	// Center the text in the middle of the container (vertical and horizontal centering)
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+	text-align: center;
+
+	// // Copy pasted from https://www.box.com/en-gb/pricing/business
+	font-size: 1rem;
+    line-height: 1.75rem;
+    color: #767676;
+}
+
+.priceCardLowerContainer {
+	height: 50%; // From parent container
+	margin-left: 10%;
+	margin-right: 10%;
+	padding-top: 5%;
+	
+	border-top: 2px solid #52c41a;
+
+	text-align: left;
+}
+
