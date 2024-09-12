@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { PeopleService } from "../../services/PeopleService";
 import { CategoriesService } from "../../services/CategoriesService";
-import { hasValidateResponseStatus } from "../../utils/ValidationUtils";
+import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 import PriceCard from "../../components/PriceCard/PriceCard";
 
 const PHOTOGRAPHER_CATEGORY = "photographer";
@@ -52,7 +52,7 @@ function Pricing() {
 	}, []);
 
 	function validateResponseStatus(response, validStatusesList) {
-		if (!hasValidateResponseStatus(response, validStatusesList)) {
+		if (!hasValidResponseStatus(response, validStatusesList)) {
 			navigate("/info/unknownerror");
 		}
 	}

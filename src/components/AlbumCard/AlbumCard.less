@@ -1,40 +1,43 @@
 .albumCardContainer {
-	width: 30%;
-	min-width: 120px;
-	// max-width: 500px;
-	max-height: 300px;
-}
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
 
-.ant-card-hoverable {
-	:hover {
-		border-color: rgb(221, 213, 213);
+	img, video, iframe {
+		height: 350px;		
+		width: auto;		
+		object-fit: contain; // Keeps aspect ratio of the content
+		// border: 1px solid  rgb(221, 213, 213);
 	}
 }
 
 .albumCardCoverContainer {
-	height: 80%;
+	overflow: hidden; /* In case the image exceeds max-height */
+	display: flex; /* Using flex to center the image if needed */
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
-.albumCardCoverImg {
-	width: 100%;
-	max-height: 100%;
-	object-fit: cover;
-	vertical-align: 0;
+.albumCardImg {
+	margin: 5px; // So that the hover effect can be seen
+	:hover {
+		// box-shadow: 0 0 11px rgba(33,33,33,.2); 
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		// box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+		// box-shadow: 0 0 11px rgba(33,33,33,.2);
+	}
 }
 
-.albumCardTitleContainer {
-	height: 20%;
+.albumCardTitle {	
+	/* Optional: for better visual appearance */
+	margin-top: 10px;
+
+	word-wrap: break-word;	
 	display: flex;
 	justify-content: center;
-	border-bottom: 1px solid rgb(221, 213, 213);
-	border-left: 1px solid rgb(221, 213, 213);
-	border-right: 1px solid rgb(221, 213, 213);
-}
-
-.albumCardTitle {
-	margin: auto;
 	font-weight: bold;
-	overflow: hidden;
+	font-size: large;	
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }

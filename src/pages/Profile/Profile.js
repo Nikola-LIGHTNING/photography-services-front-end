@@ -11,7 +11,7 @@ import { ReviewsService } from "../../services/ReviewsService";
 import { PeopleService } from "../../services/PeopleService";
 import { CategoriesService } from "../../services/CategoriesService";
 import { AboutMeService } from "../../services/AboutMeService";
-import { hasValidateResponseStatus } from "../../utils/ValidationUtils";
+import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 
 const PHOTOGRAPHER_CATEGORY = "photographer";
 
@@ -70,7 +70,7 @@ function Profile() {
 	}
 
 	function validateResponseStatus(response, validStatusesList) {
-		if (!hasValidateResponseStatus(response, validStatusesList)) {
+		if (!hasValidResponseStatus(response, validStatusesList)) {
 			navigate("/info/unknownerror");
 		}
 	}

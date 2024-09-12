@@ -3,7 +3,7 @@ import Divider from "../Divider/Divider";
 import Review from "../Review/Review";
 import { getDateObjectFromDateTimeString } from "../../utils/LocalDateTimeParser";
 import { Form, Input, message, Button, Rate } from "antd";
-import { hasValidateResponseStatus } from "../../utils/ValidationUtils";
+import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 import { ReviewsService } from "../../services/ReviewsService";
 
 const namesRules = [
@@ -71,7 +71,7 @@ function ReviewSection({ person, reviews, reviewDispatcher }) {
 			};
 
 			reviewsService.addReview(review).then((response) => {
-				if (hasValidateResponseStatus(response, [200, 201]) && response.status === 201) {
+				if (hasValidResponseStatus(response, [200, 201]) && response.status === 201) {
 					reviewDispatcher({ type: "add", item: review }); // the item must be response.data instead of review
 					form.resetFields();
 					message.success("Добавихте коментар!");

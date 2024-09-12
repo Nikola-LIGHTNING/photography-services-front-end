@@ -363,7 +363,7 @@ function Services() {
 					>
 						<div className="servicesPagePhotographerFilters">
 							<div className="servicesPagePhotographerWorkAreaFilter">
-								<span className="servicesPagePhotographerWorkArea">Oбласт за услугата:</span>
+								<span className="servicesPagePhotographerWorkArea">Oбласт на услугата:</span>
 								<Select
 									showSearch
 									defaultValue="Всички Области"

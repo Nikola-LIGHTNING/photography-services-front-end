@@ -1,8 +1,8 @@
-.servicesPageLayout {
+.albumsPageLayout {
 	height: calc(100vh - 64px); // We substract 64px because of the Navbar which is fixed
 }
 
-.servicesPageSider {
+.albumsPageSider {
 	// The following properties keep the sider content fixed when scrolling down
 	position: fixed; // We remove the element from the normal document positioning flow
 	// top: 64px; // This is to make space for the navbar. Not needed since navbar is an Affix component
@@ -11,11 +11,12 @@
 	border-right: 1px solid #f0f0f0;
 }
 
-.servicesPageContent {
-	background: rgb(223, 223, 223);
+.albumsPageContent {
+	// background: rgb(223, 223, 223);	
+	background-color: white;	
 }
 
-.servicesPagePhotographerFilters {
+.albumsPageCategoryFilters {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -25,10 +26,19 @@
 	background-color: white;
 }
 
-.servicesPageSearchContainer {
+.albumsPageSearchContainer {
 	width: 350px;
 }
 
-.servicesPageSearch {
+.albumsPageSearch {
 	border-radius: 20%;
+}
+
+.albumPageAlbumsList {
+	display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto; /* Adds scrollbar if content overflows */
+	gap: 20px;
+	padding-left: 15px; // In order for the albums to start at the same padding as the search topbar
+	padding-right: 15px;
 }
