@@ -18,6 +18,7 @@ import coverFive from '../../images/bikini.jpg';
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 const { Search } = Input;
+
 function scrollToTop() {
     scroll.scrollToTop({
         duration: 500,
@@ -26,6 +27,7 @@ function scrollToTop() {
     });
 }
 
+// Adds/removes/cleans a list of strings (in this instance a list of category keys)
 function selectedCategoriesReducer(state, action) {
     switch (action.type) {
         case "add":
@@ -49,14 +51,12 @@ function Albums() {
     const location = useLocation();
     const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
-    // const [photographer, setPhotographer] = useState({});
-    // const [categories, setCategories] = useState({});
-    const [selectedTab, setSelectedTab] = useState("services");
     const [selectedCategories, dispatch] = useReducer(selectedCategoriesReducer, []);
     const [searchTerm, setSearchTerm] = useState("");
 
     const searchPredicate = (album) => {
-        if (searchTerm.trim().length === 0) return true;
+        if (searchTerm.trim().length === 0)
+            return true;
 
         const title = album.title.toLowerCase();
         const searchTermLowerCase = searchTerm.toLowerCase();
@@ -65,7 +65,7 @@ function Albums() {
     };
 
     const categoriesPredicate = (album) => {
-        return selectedCategories.some((category) => category != undefined && category.key === album.category);
+        return selectedCategories.some((categoryKey) => categoryKey != undefined && categoryKey === album.categoryKey);
     };
 
     // Load from backend API callback. Use a ServiceClass to encapsulate the backend calls logic and use that ServiceClass here.
@@ -84,6 +84,7 @@ function Albums() {
         // we add it as the first element or remove it as if the category is deselected
         // we fill the rest of the list (2 items) with categories which are selected
     };
+
     const categories = {
         events: [
             {
@@ -130,7 +131,7 @@ function Albums() {
             createdOn: "2024-02-08 06:19:26.674",
             coverMediaId: "1",
             coverImageSrc: coverOne,
-            category: "wedding"
+            categoryKey: "wedding"
             // 4 Img sources for album covers of every category
             // This logic should be implemented where the albums for a photographer are fetched.
             // when a category is selected we show it as the first album cover for a photographer
@@ -144,7 +145,7 @@ function Albums() {
             createdOn: "2024-02-08 06:19:26.674",
             coverMediaId: "5",
             coverImageSrc: coverTwo,
-            category: "family"
+            categoryKey: "family"
         },
         {
             id: "11",
@@ -153,7 +154,7 @@ function Albums() {
             createdOn: "2024-02-08 06:19:26.674",
             coverMediaId: "2",
             coverImageSrc: coverThree,
-            category: "prom"
+            categoryKey: "prom"
         },
         {
             id: "15",
@@ -162,7 +163,7 @@ function Albums() {
             createdOn: "2024-02-08 06:19:26.674",
             coverMediaId: "3",
             coverImageSrc: coverFour,
-            category: "baptism"
+            categoryKey: "baptism"
         },
         {
             id: "12",
@@ -171,25 +172,15 @@ function Albums() {
             createdOn: "2024-02-08 06:19:26.674",
             coverMediaId: "4",
             coverImageSrc: coverFive,
-            category: "prom"
+            categoryKey: "prom"
         }
     ];
 
-    // Runs only on changing props.location.state (when clicking on a different tab from the Navbar)
+    // Runs every time the URL changes: This includes when the page is first opened through a URL, when navigating to a new route within the app, or when the URL parameters or hash change.
     useEffect(() => {
-        let selectedTab;
+        categories.events.forEach((event) => dispatch({ type: "add", item: event.key }));
+        categories.other.forEach((other) => dispatch({ type: "add", item: other.key }));
 
-        if (!location.state) {
-            categories.events.forEach((event) => dispatch({ type: "add", item: event.value }));
-            categories.other.forEach((other) => dispatch({ type: "add", item: other.value }));
-            selectedTab = "photo_services";
-        } else {
-            dispatch({ type: "clean" });
-            dispatch({ type: "add", item: location.state.selectedCategory });
-            selectedTab = location.state.selectedTab;
-        }
-
-        setSelectedTab(selectedTab);
         scrollToTop();
     }, [location]);
 
@@ -199,9 +190,9 @@ function Albums() {
 
     function onCheckboxChange(event) {
         if (event.target.checked) {
-            dispatch({ type: "add", item: event.target.category });
+            dispatch({ type: "add", item: event.target.category_key });
         } else {
-            dispatch({ type: "delete", item: event.target.category });
+            dispatch({ type: "delete", item: event.target.category_key });
         }
     }
 
@@ -211,40 +202,32 @@ function Albums() {
                 <Menu.Item key={key}>
                     <Checkbox
                         category={value}
+                        category_key={key}
                         onChange={onCheckboxChange}
-                        checked={selectedCategories.includes(value) ? true : false}
+                        checked={selectedCategories.includes(key) ? true : false}
                     >
-                        {value}photographer
+                        {value}
                     </Checkbox>
                 </Menu.Item>
             ));
         }
     }
 
+    // When pressing the search button (technically not needed if you have onSearchChange)
     function onSearch(value, event) {
         setSearchTerm(value);
     }
 
+    // When entering any text in the search bar
     function onSearchChange(event) {
         onSearch(event.target.value, event);
-    }
-
-    function buildAlbums() {
-        return albums.map((album) => (
-            <AlbumCard
-                key={album.urlIdentifier}
-                title={album.title}
-                coverImageSrc={album.coverImageSrc}
-                onClick={() => navigate(`/photographers/${photographer.id}/albums/${album.id}`)}
-            />
-        ));
     }
 
     return (
         <Layout>
             <FloatButton.BackTop duration="800" />
             <Affix>
-                <Navbar selectedTab={selectedTab} categories={categories} />
+                <Navbar selectedTab={"photographers"} categories={categories} />
             </Affix>
             <Content>
                 <Layout className="albumsPageLayout">
@@ -286,27 +269,19 @@ function Albums() {
                                 />
                             </div>
                         </div>
-                        <div className="albumPageAlbumsList">{buildAlbums()}</div>
-
-                        {
-                            /* 
-                                Done: 1. Build list of album cards that is linearly ordered and all albums have the same height (ask grok how). Width can be dynamic. Similar to https://www.tatyanachohadjieva.com/MNwedd/n-4ZJcsQ
-                                Done: 2. Finalise hover effect
-                                3. Connect the category filter to work properly
-                                4. Connect the search filter to work properly
-                                5. Make the menu select photographers when you are on the albums page of some photographer
-                                6. Replicate for the album page itself
-                            
-                            
-                            <PhotographersList
-                                photographers={
-                                    albums
-                                        .filter(categoriesPredicate)
-                                        .filter(searchPredicate)}
-                                setPhotographer={setPhotographer}
-                            /> 
-                            */
-                        }
+                        <div className="albumPageAlbumsList">{
+                            albums
+                                .filter(categoriesPredicate)
+                                .filter(searchPredicate)
+                                .map((album) => (
+                                    <AlbumCard
+                                        key={album.urlIdentifier}
+                                        title={album.title}
+                                        coverImageSrc={album.coverImageSrc}
+                                        onClick={() => navigate(`/photographers/${photographer.id}/albums/${album.id}`)}
+                                    />
+                                ))}
+                        </div>
                     </Content>
                 </Layout>
             </Content>
