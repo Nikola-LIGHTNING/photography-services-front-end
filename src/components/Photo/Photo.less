@@ -1,0 +1,25 @@
+.photoContainer {
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+
+	img, video, iframe {
+		height: 250px;		
+		width: auto;		
+		object-fit: contain; // Keeps aspect ratio of the content
+	}
+}
+
+.photoCoverContainer {
+	overflow: hidden; /* In case the image exceeds max-height */
+	display: flex; /* Using flex to center the image if needed */
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.photoImg {
+	max-height: 300px;		
+	width: auto;		
+	object-fit: contain; // Keeps aspect ratio of the content
+}

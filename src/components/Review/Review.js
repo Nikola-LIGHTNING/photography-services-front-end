@@ -1,4 +1,5 @@
 import "./Review.less";
+import Divider from "../Divider/Divider";
 import { getLocalDateFromDateTimeString, getLocalTimeFromDateTimeString } from "../../utils/LocalDateTimeParser";
 import { Rate } from "antd";
 
@@ -15,6 +16,7 @@ function Review({ review }) {
 				<Rate disabled allowHalf value={review.rating} />
 			</div>
 			<div className="reviewText">{review.text}</div>
+			<Divider />
 		</div>
 	);
 }

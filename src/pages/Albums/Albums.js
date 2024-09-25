@@ -5,7 +5,6 @@ import { useState, useEffect, useReducer } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
 import Navbar from "../../components/Navbar/Navbar";
-import PhotographersList from "../../components/PhotographersList/PhotographersList";
 import PhotographerDetails from "../../components/PhotographerDetails/PhotographerDetails";
 import AlbumCard from "../../components/AlbumCard/AlbumCard";
 import coverOne from '../../images/GN-821.jpg';
@@ -269,7 +268,7 @@ function Albums() {
                                 />
                             </div>
                         </div>
-                        <div className="albumPageAlbumsList">{
+                        <div className="albumsPageAlbumsList">{
                             albums
                                 .filter(categoriesPredicate)
                                 .filter(searchPredicate)

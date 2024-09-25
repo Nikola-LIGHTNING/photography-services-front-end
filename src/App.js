@@ -9,6 +9,7 @@ import Photographers from "./pages/Photographers/Photographers";
 import Profile from "./pages/Profile/Profile";
 import Pricing from "./pages/Pricing/Pricing"
 import Albums from "./pages/Albums/Albums"
+import Album from "./pages/Album/Album"
 import Unavailable from "./pages/Unavailable/Unavailable";
 
 /**
@@ -51,6 +52,7 @@ function App() {
 					<Route path="/photographers/:photographerId" element={<Profile />} />
 					<Route path="/photographers/:photographerId/pricing" element={<Pricing />} />
 					<Route path="/photographers/:photographerId/albums" element={<Albums />} />
+					<Route path="/photographers/:photographerId/albums/:albumId" element={<Album />} />
 					<Route path="/info/unknownerror" element={<Unavailable />} />
 					{/* <Route component={NotFoundPage} /> */}
 				</Routes>

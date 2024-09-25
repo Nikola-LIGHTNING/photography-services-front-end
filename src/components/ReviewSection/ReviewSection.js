@@ -110,9 +110,13 @@ function ReviewSection({ person, reviews, reviewDispatcher }) {
 				</Form>
 			</div>
 
-			{reviews.sort(descReviewSort).map((review) => (
-				<Review review={review} key={review.created_on} />
-			))}
+			{
+				reviews
+					.sort(descReviewSort)
+					.map((review) => (
+						<Review review={review} key={review.created_on} />
+					))
+			}
 		</div>
 	);
 }
