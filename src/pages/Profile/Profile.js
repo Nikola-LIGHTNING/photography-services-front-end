@@ -7,9 +7,9 @@ import ReviewSection from "../../components/ReviewSection/ReviewSection";
 import { Layout, Affix, FloatButton } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
-import { ReviewsService } from "../../services/ReviewsService";
+import { ReviewService } from "../../services/ReviewService";
 import { PeopleService } from "../../services/PeopleService";
-import { CategoriesService } from "../../services/CategoriesService";
+import { WorkCategoryService } from "../../services/WorkCategoryService";
 import { AboutMeService } from "../../services/AboutMeService";
 import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 
@@ -17,9 +17,9 @@ const PHOTOGRAPHER_CATEGORY = "photographer";
 
 const { Content } = Layout;
 
-const reviewsService = new ReviewsService();
+const reviewService = new ReviewService();
 const peopleService = new PeopleService();
-const categoriesService = new CategoriesService();
+const workCategoryService = new WorkCategoryService();
 const aboutMeService = new AboutMeService();
 
 function Profile() {
@@ -37,7 +37,7 @@ function Profile() {
 
 		Promise.all([
 			peopleService.getPersonByUrlId(photographerUrlId),
-			categoriesService.getCategoriesByProfession(PHOTOGRAPHER_CATEGORY),
+			workCategoryService.getWorkCategoriesByProfession(PHOTOGRAPHER_CATEGORY),
 		]).then((responses) => {
 			responses.forEach((response) => validateResponseStatus(response, [200]));
 			setPhotographer(responses[0].data);
@@ -46,7 +46,7 @@ function Profile() {
 
 		Promise.all([
 			aboutMeService.getAboutMeByPersonId(photographer.id),
-			reviewsService.getReviewsOfPerson(photographer.id),
+			reviewService.getReviewsOfPerson(photographer.id),
 		]).then((responses) => {
 			responses.forEach((response) => validateResponseStatus(response, [200]));
 			setAboutMe(responses[0].data);
@@ -61,7 +61,7 @@ function Profile() {
 			case "add":
 				return [...state, action.item];
 			case "delete":
-				return [...state.filter((review) => review.id !== action.item.id)];
+				return [...state.filter((review) => review.reviewId !== action.item.id)];
 			case "clean":
 				return [];
 			default:

@@ -5,17 +5,17 @@ import { Rate } from "antd";
 
 function Review({ review }) {
 	const prettyfiedCreatedOn =
-		getLocalTimeFromDateTimeString(review.created_on) + " " + getLocalDateFromDateTimeString(review.created_on);
+		getLocalTimeFromDateTimeString(review.createdOn) + " " + getLocalDateFromDateTimeString(review.createdOn);
 
 	return (
 		<div className="reviewContainer">
 			<div className="reviewSummary">
 				<div>
-					{review.posted_by} <span className="reviewCreatedOn">{prettyfiedCreatedOn}</span>
+					{review.name} <span className="reviewCreatedOn">{prettyfiedCreatedOn}</span>
 				</div>
 				<Rate disabled allowHalf value={review.rating} />
 			</div>
-			<div className="reviewText">{review.text}</div>
+			<div className="reviewText">{review.comment}</div>
 			<Divider />
 		</div>
 	);

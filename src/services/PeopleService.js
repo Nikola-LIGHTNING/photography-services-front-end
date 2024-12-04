@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PEOPLE_REST_API_URL = "http://localhost:8080/api/people";
+const PEOPLE_REST_API_URL = "http://localhost:8080/api/v1/people";
 
 // Mock data. Remove when backend API is ready.
 const person = {
@@ -20,7 +20,6 @@ export class PeopleService {
 		let responseObj = {};
 		await axios
 			.get(`${PEOPLE_REST_API_URL}/${personUrlId}`)
-			// .get(`https://httpbin.org/get`)
 			.then((response) => {
 				responseObj = response;
 			})

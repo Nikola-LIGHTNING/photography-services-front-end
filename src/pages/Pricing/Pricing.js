@@ -5,7 +5,7 @@ import { Layout, Affix, FloatButton } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { PeopleService } from "../../services/PeopleService";
-import { CategoriesService } from "../../services/CategoriesService";
+import { WorkCategoryService } from "../../services/WorkCategoryService";
 import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 import PriceCard from "../../components/PriceCard/PriceCard";
 
@@ -14,7 +14,7 @@ const PHOTOGRAPHER_CATEGORY = "photographer";
 const { Content } = Layout;
 
 const peopleService = new PeopleService();
-const categoriesService = new CategoriesService();
+const workCategoryService = new WorkCategoryService();
 
 function Pricing() {
 	const location = useLocation();
@@ -42,7 +42,7 @@ function Pricing() {
 
 		Promise.all([
 			peopleService.getPersonByUrlId(photographerUrlId),
-			categoriesService.getCategoriesByProfession(PHOTOGRAPHER_CATEGORY),
+			workCategoryService.getWorkCategoriesByProfession(PHOTOGRAPHER_CATEGORY),
 		]).then((responses) => {
 			responses.forEach((response) => validateResponseStatus(response, [200]));
 			setPhotographer(responses[0].data);
