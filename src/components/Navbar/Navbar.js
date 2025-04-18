@@ -1,14 +1,17 @@
 import "./Navbar.less";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, Layout, Button, Modal } from "antd";
-import { LoginOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Menu, Layout, Button, Modal, Avatar, Space } from "antd";
+import { LoginOutlined, LogoutOutlined, ExclamationCircleOutlined, UserOutlined } from "@ant-design/icons";
 import Logo from "../Logo/Logo";
+import { useAuth } from "../../utils/AuthContext";
+
 
 const { SubMenu, Item, ItemGroup } = Menu;
 const { Header } = Layout;
 
 function Navbar({ selectedTab, categories }) {
 	const navigate = useNavigate();
+	const { isAuthenticated, logout } = useAuth(); // Access auth state and logout
 
 	function showConfirmStayOnPage() {
 		Modal.confirm({
@@ -41,15 +44,39 @@ function Navbar({ selectedTab, categories }) {
 		}
 	}
 
+	const renderAuthenticated = () => (		
+		<Space>
+			<Link to={`/photographers/`}>
+				<Avatar
+					icon={<UserOutlined />} 
+					size="large"
+					className="profile-avatar"
+				/>
+			</Link>
+			<Button
+				type="primary"
+				shape="round"
+				size="large"
+				onClick={() => { logout(); navigate('/login'); }}
+			>
+				Изход <LogoutOutlined />
+			</Button>
+		</Space>
+	);
+
+	const renderUnauthenticated = () => (
+		<Button type="primary" shape="round" size="large" onClick={showConfirmStayOnPage}>
+			Вход <LoginOutlined />
+		</Button>
+	);
+
 	return (
 		<Header className="navbarHeader">
 			<div className="navbarLogo">
 				<Logo />
 			</div>
-			<div className="navbarLoginBtnContainer">
-				<Button type="primary" shape="round" size="large" onClick={showConfirmStayOnPage}>
-					Вход <LoginOutlined />
-				</Button>
+			<div className="navbarAuthenticationContainer">
+				{isAuthenticated ? renderAuthenticated() : renderUnauthenticated()}
 			</div>
 			<Menu className="navbarMenu" selectedKeys={[selectedTab]} mode="horizontal">
 				<Item key="home">

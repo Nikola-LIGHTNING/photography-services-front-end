@@ -8,6 +8,7 @@ import { AuthenticationService } from "../../services/AuthenticationService";
 import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 import { WorkCategoryService } from "../../services/WorkCategoryService";
 import { ProvinceService } from "../../services/ProvinceService";
+import { useAuth } from "../../utils/AuthContext";
 
 const { Option } = Select;
 
@@ -144,7 +145,7 @@ function Register() {
 	const [workCategoriesEnabled, setWorkCategoriesEnabled] = useState(false);
 	const [workCategories, setWorkCategories] = useState([]);
 	const selectedProfession = Form.useWatch('profession', form); // Used for following changes on the value of the profession field
-
+	const { setIsAuthenticated } = useAuth(); // Access setIsAuthenticated from context
 
 	// Run only when component mounts to fetch required data
 	useEffect(() => {
@@ -206,7 +207,10 @@ function Register() {
 				.then((response) => {
 					console.log(response);
 					if (hasValidResponseStatus(response, [200])) {
+						sessionStorage.setItem('jwtToken', response.token);
+						setIsAuthenticated(true); // Update global auth state
 						message.success("Успешена регистрация и вход!");
+						navigate("/home"); 
 					} else {
 						// Log error using a logging service
 						onFinishFailed();
