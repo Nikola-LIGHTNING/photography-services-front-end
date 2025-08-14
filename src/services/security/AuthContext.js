@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
   const value = {
     isAuthenticated,
     setIsAuthenticated,
-    logout,
+    logout
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

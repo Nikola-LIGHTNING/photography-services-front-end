@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, Layout, Button, Modal, Avatar, Space } from "antd";
 import { LoginOutlined, LogoutOutlined, ExclamationCircleOutlined, UserOutlined } from "@ant-design/icons";
 import Logo from "../Logo/Logo";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../services/security/AuthContext";
+import { PeopleService } from "../../services/PeopleService";
+import { useState, useEffect } from "react";
 
 
 const { SubMenu, Item, ItemGroup } = Menu;
@@ -12,6 +14,26 @@ const { Header } = Layout;
 function Navbar({ selectedTab, categories }) {
 	const navigate = useNavigate();
 	const { isAuthenticated, logout } = useAuth(); // Access auth state and logout
+	const [personId, setPersonId] = useState(null);
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			const peopleService = new PeopleService();
+			const fetchPersonMe = async () => {
+				try {
+					const response = await peopleService.getPersonMe();
+					if (response.status === 200 && response.data) {
+						setPersonId(response.data.id);
+					}
+				} catch (error) {
+					console.error("Failed to fetch current user's person data:", error);
+				}
+			};
+			fetchPersonMe();
+		} else {
+			setPersonId(null);
+		}
+	}, [isAuthenticated]);
 
 	function showConfirmStayOnPage() {
 		Modal.confirm({
@@ -46,7 +68,7 @@ function Navbar({ selectedTab, categories }) {
 
 	const renderAuthenticated = () => (		
 		<Space>
-			<Link to={`/photographers/`}>
+			<Link to={personId ? `/photographers/${personId}` : `/photographers/`}>
 				<Avatar
 					icon={<UserOutlined />} 
 					size="large"

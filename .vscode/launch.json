@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node-terminal",
+      "name": "Start Frontend",
+      "request": "launch",
+      "command": "npm install && npm start",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+} 

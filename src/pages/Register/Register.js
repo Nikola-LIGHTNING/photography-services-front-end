@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Form, Input, Select, Checkbox, Button, message } from "antd";
 import cover from '../../images/ogosta_2.jpg';
-import { AuthenticationService } from "../../services/AuthenticationService";
+import { AuthenticationService } from "../../services/security/AuthenticationService";
 import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 import { WorkCategoryService } from "../../services/WorkCategoryService";
 import { ProvinceService } from "../../services/ProvinceService";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../services/security/AuthContext";
 
 const { Option } = Select;
 
@@ -207,7 +207,7 @@ function Register() {
 				.then((response) => {
 					console.log(response);
 					if (hasValidResponseStatus(response, [200])) {
-						sessionStorage.setItem('jwtToken', response.token);
+						sessionStorage.setItem('jwtToken', response.data.token);
 						setIsAuthenticated(true); // Update global auth state
 						message.success("Успешена регистрация и вход!");
 						navigate("/home"); 

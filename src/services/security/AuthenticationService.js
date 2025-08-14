@@ -19,9 +19,6 @@ export class AuthenticationService {
 					responseObj.message = "Something happened in setting up the request that triggered an Error";
 				}
 				responseObj.config = error.config;
-				
-				// Temporary until proper logging
-				console.log(responseObj);
 			});
 
 		return responseObj;
@@ -43,9 +40,6 @@ export class AuthenticationService {
 					responseObj.message = "Something happened in setting up the request that triggered an Error";
 				}
 				responseObj.config = error.config;
-				
-				// Temporary until proper logging
-				console.log(responseObj);				
 			});
 
 		return responseObj;

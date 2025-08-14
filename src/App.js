@@ -11,6 +11,7 @@ import Pricing from "./pages/Pricing/Pricing";
 import Albums from "./pages/Albums/Albums";
 import Album from "./pages/Album/Album";
 import Unavailable from "./pages/Unavailable/Unavailable";
+import './services/security/AxiosSetup'; // Global axios interceptors
 
 /**
  * The main react component we are using in the html body.

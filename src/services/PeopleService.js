@@ -15,7 +15,7 @@ const person = {
 	categories: ["Сватбена фотография", "Абитуриенти", "Фотокниги", "Кръщене"],
 };
 
-export class PeopleService {
+export class PeopleService {	
 	async getPersonByUrlId(personUrlId) {
 		let responseObj = {};
 		await axios
@@ -32,9 +32,33 @@ export class PeopleService {
 					responseObj.message = "Something happened in setting up the request that triggered an Error";
 				}
 				responseObj.config = error.config;
-				// Temporary mock
-				responseObj.status = 200;
-				responseObj.data = person;
+				
+				// Temporary until proper logging
+				console.log(responseObj);
+			});
+
+		return responseObj;
+	}
+
+	async getPersonMe() {
+		let responseObj = {};
+		await axios
+			.get(`${PEOPLE_REST_API_URL}/me`)
+			.then((response) => {
+				responseObj = response;
+			})
+			.catch((error) => {
+				if (error.response) {
+					responseObj = error.response;
+				} else if (error.request) {
+					responseObj.message = "The request was made but no response was received";
+				} else {
+					responseObj.message = "Something happened in setting up the request that triggered an Error";
+				}
+				responseObj.config = error.config;
+				
+				// Temporary until proper logging
+				console.log(responseObj);
 			});
 
 		return responseObj;

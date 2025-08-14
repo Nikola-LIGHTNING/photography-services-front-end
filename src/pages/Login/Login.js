@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Logo from "../../components/Logo/Logo";
 import cover from '../../images/ogosta_3.jpg';
-import { AuthenticationService } from "../../services/AuthenticationService";
+import { AuthenticationService } from "../../services/security/AuthenticationService";
 import { hasValidResponseStatus } from "../../utils/ValidationUtils";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../services/security/AuthContext";
 
 const authenticationService = new AuthenticationService();
 
@@ -38,9 +38,8 @@ function Login() {
 
 			authenticationService.generateAuthenticationToken(authenticationRequest)
 				.then((response) => {
-					console.log(response);
 					if (hasValidResponseStatus(response, [200])) {
-						sessionStorage.setItem('jwtToken', response.token);
+						sessionStorage.setItem('jwtToken', response.data.token);
 						setIsAuthenticated(true); // Update global auth state
 						message.success("Успешен вход!");
 						navigate("/home");
@@ -75,7 +74,7 @@ function Login() {
 					onFinishFailed={onFinishFailed}
 				>
 					<Form.Item name="username" hasFeedback rules={[formRules.username]}>
-						<Input prefix={<UserOutlined />} placeholder="Потребителско име" />
+						<Input prefix={<UserOutlined />} placeholder="Потребителско име (вашият E-mail)" />
 					</Form.Item>
 					<Form.Item name="password" hasFeedback rules={[formRules.password]}>
 						<Input.Password prefix={<LockOutlined />} type="password" placeholder="Парола" />
