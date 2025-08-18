@@ -6,7 +6,7 @@ import React from "react";
 
 const { Sider } = Layout;
 
-function ProfileSider({ collapsed, onCollapse, selectedPage, photographer }) {
+function ProfileSider({ collapsed, onCollapse, selectedPage, person }) {
 	return (
 		<Sider
 			className="profileSider"
@@ -19,18 +19,18 @@ function ProfileSider({ collapsed, onCollapse, selectedPage, photographer }) {
 		>
 			<Menu mode="inline" defaultSelectedKeys={selectedPage}>
 				{!collapsed && (
-					<Menu.ItemGroup key="profileSiderNames" title={photographer.firstName + " " + photographer.lastName} />
+					<Menu.ItemGroup key="profileSiderNames" title={person.firstName + " " + person.lastName} />
 				)}
 				<Menu.Item key="profile" icon={<UserOutlined />}>
-					<Link to={{ pathname: `/photographers/${photographer.id}` }} state={{ selectedPage: "profile" }}>Профил</Link>
+					<Link to={{ pathname: `/people/${person.id}` }} state={{ selectedPage: "profile" }}>Профил</Link>
 				</Menu.Item>
 				<Menu.Item key="albums" icon={<BookOutlined />}>
-					<Link to={{ pathname: `/photographers/${photographer.id}/albums` }} state={{ selectedPage: "albums" }}>
+					<Link to={{ pathname: `/people/${person.id}/albums` }} state={{ selectedPage: "albums" }}>
 						Албуми
 					</Link>
 				</Menu.Item>
 				<Menu.Item key="pricing" icon={<SolutionOutlined />}>
-					<Link to={{ pathname: `/photographers/${photographer.id}/pricing` }} state={{ selectedPage: "pricing" }}>
+					<Link to={{ pathname: `/people/${person.id}/pricing` }} state={{ selectedPage: "pricing" }}>
 						Ценоразпис
 					</Link>
 				</Menu.Item>

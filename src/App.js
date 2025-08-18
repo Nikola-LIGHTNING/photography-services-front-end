@@ -55,10 +55,10 @@ function App() {
 					{/* Main feature routes */}
 					<Route path="/services" element={<Services />} />
 					<Route path="/photographers" element={<Photographers />} />
-					<Route path="/photographers/:photographerId" element={<Profile />} />
-					<Route path="/photographers/:photographerId/pricing" element={<Pricing />} />
-					<Route path="/photographers/:photographerId/albums" element={<Albums />} />
-					<Route path="/photographers/:photographerId/albums/:albumId" element={<Album />} />
+					<Route path="/people/:photographerId" element={<Profile />} />
+					<Route path="/people/:photographerId/pricing" element={<Pricing />} />
+					<Route path="/people/:photographerId/albums" element={<Albums />} />
+					<Route path="/people/:photographerId/albums/:albumId" element={<Album />} />
 					
 					{/* Error handling routes */}
 					<Route path="/info/unknownerror" element={<Unavailable />} />

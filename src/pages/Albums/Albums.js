@@ -68,7 +68,7 @@ function Albums() {
     };
 
     // Load from backend API callback. Use a ServiceClass to encapsulate the backend calls logic and use that ServiceClass here.
-    const photographer = {
+    const person = {
         id: "fotograf.fotografov",
         firstName: "Фотограф",
         lastName: "Фотографов",
@@ -241,8 +241,8 @@ function Albums() {
                     >
                         <Menu mode="inline" defaultOpenKeys={["photographerDetails", "events", "other"]}>
                             {/* Display the selected photographer .*/}
-                            <SubMenu key="photographerDetails" icon={<UserOutlined />} title={photographer.firstName}>
-                                {!collapsed && <PhotographerDetails photographer={photographer} />}
+                            <SubMenu key="personDetails" icon={<UserOutlined />} title={person.firstName}>
+                                {!collapsed && <PhotographerDetails person={person} />}
                             </SubMenu>
 
                             {!collapsed && <Menu.ItemGroup key="filters" title="Филтри"></Menu.ItemGroup>}
@@ -277,7 +277,7 @@ function Albums() {
                                         key={album.urlIdentifier}
                                         title={album.title}
                                         coverImageSrc={album.coverImageSrc}
-                                        onClick={() => navigate(`/photographers/${photographer.id}/albums/${album.id}`)}
+                                        onClick={() => navigate(`/people/${person.id}/albums/${album.id}`)}
                                     />
                                 ))}
                         </div>

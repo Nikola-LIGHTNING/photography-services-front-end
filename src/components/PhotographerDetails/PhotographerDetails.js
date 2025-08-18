@@ -2,33 +2,33 @@ import "./PhotographerDetails.less";
 import { Image } from "antd";
 import { Link } from "react-router-dom";
 
-function PhotographerDetails({ photographer }) {
+function PhotographerDetails({ person }) {
 	return (
 		<div className="photographerDetails">
-			<Image className="photographerDetailsImage" src={photographer.profileImgSrc} />
+			<Image className="photographerDetailsImage" src={person.profileImgSrc} />
 			<div className="photographerDetailsText">
 				<h5>
 					<span>Имена: </span>
-					{photographer.firstName + " " + photographer.lastName}
+					{person.firstName + " " + person.lastName}
 				</h5>
 				<h5>
 					<span>Телефон: </span>
-					{photographer.phoneNumber}
+					{person.phoneNumber}
 				</h5>
 				<h5>
 					<span>Работи в областите: </span>
-					{photographer.workArea.reduce((prev, curr) => prev + ", " + curr)}
+					{person.workArea.reduce((prev, curr) => prev + ", " + curr)}
 				</h5>
 				<h5>
-					<Link to={{ pathname: `/photographers/${photographer.id}` }} state={{ selectedPage: "profile" }}>Профил</Link>
+					<Link to={{ pathname: `/people/${person.id}` }} state={{ selectedPage: "profile" }}>Профил</Link>
 				</h5>
 				<h5>
-					<Link to={{ pathname: `/photographers/${photographer.id}/albums` }} state={{ selectedPage: "albums" }}>
+					<Link to={{ pathname: `/people/${person.id}/albums` }} state={{ selectedPage: "albums" }}>
 						Албуми
 					</Link>
 				</h5>
 				<h5>
-					<Link to={{ pathname: `/photographers/${photographer.id}/pricing` }} state={{ selectedPage: "pricing" }}>
+					<Link to={{ pathname: `/people/${person.id}/pricing` }} state={{ selectedPage: "pricing" }}>
 						Ценоразпис
 					</Link>
 				</h5>

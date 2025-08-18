@@ -56,11 +56,26 @@ const descReviewSort = (review, prevReview) => {
 
 const reviewsService = new ReviewService();
 
-function ReviewSection({ person, reviews, reviewDispatcher }) {
+function ReviewSection({ person, reviews, reviewDispatcher, isOwner }) {
 	const [form] = Form.useForm();
 
 	function onSubmitFailed() {
 		message.error("Неуспешно добавяне на коментар!");
+	}
+
+	async function handleDeleteReview(reviewId) {
+		try {
+			const response = await reviewsService.removeReview(reviewId);
+			if (hasValidResponseStatus(response, [204])) {
+				reviewDispatcher({ type: "delete", item: { id: reviewId } });
+				message.success("Отзивът беше изтрит!");
+			} else {
+				message.error("Неуспешно изтриване на отзив!");
+			}
+		} catch (error) {
+			console.error("Error deleting review:", error);
+			message.error("Неуспешно изтриване на отзив!");
+		}
 	}
 
 	function onSubmit(values) {
@@ -75,7 +90,7 @@ function ReviewSection({ person, reviews, reviewDispatcher }) {
 			reviewsService.addReview(review)
 				.then((response) => {
 					if (hasValidResponseStatus(response, [200, 201]) && response.status === 201) {
-						reviewDispatcher({ type: "add", item: review }); // the item must be response.data instead of review
+						reviewDispatcher({ type: "add", item: response.data });
 						form.resetFields();
 						message.success("Добавихте коментар!");
 					} else {
@@ -115,7 +130,12 @@ function ReviewSection({ person, reviews, reviewDispatcher }) {
 				reviews
 					.sort(descReviewSort)
 					.map((review) => (
-						<Review review={review} key={review.createdOn} />
+						<Review 
+							review={review} 
+							key={review.createdOn} 
+							isOwner={isOwner}
+							onDelete={(reviewId) => handleDeleteReview(reviewId)}
+						/>
 					))
 			}
 		</div>

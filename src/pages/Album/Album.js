@@ -39,7 +39,7 @@ function Album() {
     const [collapsed, setCollapsed] = useState(false);
 
     // Load from backend API callback. Use a ServiceClass to encapsulate the backend calls logic and use that ServiceClass here.
-    const photographer = {
+    const person = {
         id: "fotograf.fotografov",
         firstName: "Фотограф",
         lastName: "Фотографов",
@@ -254,8 +254,8 @@ function Album() {
                     >
                         <Menu mode="inline" defaultOpenKeys={["photographerDetails", "events", "other"]}>
                             {/* Display the selected photographer .*/}
-                            <SubMenu key="photographerDetails" icon={<UserOutlined />} title={photographer.firstName}>
-                                {!collapsed && <PhotographerDetails photographer={photographer} />}
+                            <SubMenu key="personDetails" icon={<UserOutlined />} title={person.firstName}>
+                                {!collapsed && <PhotographerDetails person={person} />}
                             </SubMenu>
                         </Menu>
                     </Sider>
@@ -268,7 +268,7 @@ function Album() {
                                         key={media.mediaId}
                                         title={media.title}
                                         coverImageSrc={media.coverImageSrc}
-                                        // onClick={() => navigate(`/photographers/${photographer.id}/albums/${media.id}`)}
+                                        // onClick={() => navigate(`/people/${person.id}/albums/${media.id}`)}
                                     />
                                 ))}
                         </div>

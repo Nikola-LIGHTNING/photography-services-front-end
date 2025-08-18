@@ -5,12 +5,40 @@
 	min-width: 770px;
 }
 
+.textSectionHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 4px;
+}
+
 .textSectionTitle {
 	font-size: 20px;
 	font-weight: 500;
 }
 
+.editButton {
+	padding: 0;
+	font-weight: 500;
+}
+
+.editButtonGroup {
+	display: flex;
+	align-items: center;
+}
+
 .textSectionText {
 	text-align: justify;
 	white-space: pre-wrap;
+	font-weight: 500;
+	font-size: 18px;
+}
+
+.textSectionTextArea {
+	text-align: justify;
+	font-family: inherit;
+	
+	.ant-input {
+		white-space: pre-wrap;
+	}
 }

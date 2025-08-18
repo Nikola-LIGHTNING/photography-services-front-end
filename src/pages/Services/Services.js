@@ -57,11 +57,11 @@ function Services() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedProvince, setSelectedProvince] = useState("Всички Области");
 
-	const searchPredicate = (photographer) => {
+	const searchPredicate = (person) => {
 		if (searchTerm.trim().length === 0) return true;
 
-		const firstNameLowerCase = photographer.firstName.toLowerCase();
-		const lastNameLowerCase = photographer.lastName.toLowerCase();
+		const firstNameLowerCase = person.firstName.toLowerCase();
+		const lastNameLowerCase = person.lastName.toLowerCase();
 		const searchTermLowerCase = searchTerm.toLowerCase();
 
 		return (
@@ -71,12 +71,12 @@ function Services() {
 		);
 	};
 
-	const categoriesPredicate = (photographer) => {
-		return selectedCategories.some((category) => photographer.categories.includes(category));
+	const categoriesPredicate = (person) => {
+		return selectedCategories.some((category) => person.categories.includes(category));
 	};
 
-	const provincePredicate = (photographer) => {
-		return photographer.workArea.includes(selectedProvince) || selectedProvince === "Всички Области";
+	const provincePredicate = (person) => {
+		return person.workArea.includes(selectedProvince) || selectedProvince === "Всички Области";
 	};
 
 	// Load from backend API callback. Use a ServiceClass to encapsulate the backend calls logic and use that ServiceClass here.
@@ -341,7 +341,7 @@ function Services() {
 							{/* Display/Render the submenu item below only if there is a selectedPhotographer.*/}
 							{!objectIsEmpty(selectedPhotographer) && (
 								<SubMenu key="photographerDetails" icon={<UserOutlined />} title={selectedPhotographer.firstName}>
-									{!collapsed && <PhotographerDetails photographer={selectedPhotographer} />}
+									{!collapsed && <PhotographerDetails person={selectedPhotographer} />}
 								</SubMenu>
 							)}
 

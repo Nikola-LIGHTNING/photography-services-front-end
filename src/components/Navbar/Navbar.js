@@ -68,7 +68,7 @@ function Navbar({ selectedTab, categories }) {
 
 	const renderAuthenticated = () => (		
 		<Space>
-			<Link to={personId ? `/photographers/${personId}` : `/photographers/`}>
+			<Link to={personId ? `/people/${personId}` : `/photographers/`}>
 				<Avatar
 					icon={<UserOutlined />} 
 					size="large"

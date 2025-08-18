@@ -12,4 +12,22 @@ axios.interceptors.request.use(
   (error) => {
     return Promise.reject(error);
   }
+);
+
+// Handle 401 responses by clearing invalid tokens. This covers token expiration as well.
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // If we get 401 Unauthorized, clear the stored token
+    if (error.response && error.response.status === 401) {
+      console.warn('Received 401 - clearing stored JWT token');
+      sessionStorage.removeItem('jwtToken');
+      
+      // Redirect to login page
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
 ); 

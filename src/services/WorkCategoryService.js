@@ -9,19 +9,14 @@ export class WorkCategoryService {
 			.get(`${WORK_CATEGORY_REST_API_URL}`)
 			.then((response) => {
 				responseObj = response;
+				console.log(`Calling API URL: GET ${WORK_CATEGORY_REST_API_URL} and receiving the following response:`, responseObj);
 			})
 			.catch((error) => {
-				if (error.response) {
-					responseObj = error.response;
-				} else if (error.request) {
-					responseObj.message = "The request was made but no response was received";
-				} else {
-					responseObj.message = "Something happened in setting up the request that triggered an Error";
-				}
-				responseObj.config = error.config;
-				
-				// Temporary until proper logging
-				console.log(responseObj);
+				responseObj = error.response || {
+					message: error.message || "Network or request error",
+					config: error.config
+				};
+				console.log(`Calling API URL: GET ${WORK_CATEGORY_REST_API_URL} and receiving the following response:`, responseObj);
 			});
 
 		return responseObj;
@@ -33,19 +28,14 @@ export class WorkCategoryService {
 			.get(`${WORK_CATEGORY_REST_API_URL}/${profession}`)
 			.then((response) => {
 				responseObj = response;
+				console.log(`Calling API URL: GET ${WORK_CATEGORY_REST_API_URL}/${profession} and receiving the following response:`, responseObj);
 			})
 			.catch((error) => {
-				if (error.response) {
-					responseObj = error.response;
-				} else if (error.request) {
-					responseObj.message = "The request was made but no response was received";
-				} else {
-					responseObj.message = "Something happened in setting up the request that triggered an Error";
-				}
-				responseObj.config = error.config;
-								
-				// Temporary until proper logging
-				console.log(responseObj);
+				responseObj = error.response || {
+					message: error.message || "Network or request error",
+					config: error.config
+				};
+				console.log(`Calling API URL: GET ${WORK_CATEGORY_REST_API_URL}/${profession} and receiving the following response:`, responseObj);
 			});
 
 		return responseObj;

@@ -4,10 +4,10 @@ import PhotographerPortfolio from "../PhotographerPortfolio/PhotographerPortfoli
 function PhotographersList({ photographers, setSelectedPhotographer }) {
 	function buildPhotographerPortfolios() {
 		if (photographers) {
-			return photographers.map((photographer) => (
+			return photographers.map((person) => (
 				<PhotographerPortfolio
-					key={photographer.id}
-					photographer={photographer}
+					key={person.id}
+					person={person}
 					setSelectedPhotographer={setSelectedPhotographer}
 				/>
 			));

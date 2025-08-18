@@ -1,0 +1,56 @@
+.pricingModal {
+    .ant-modal-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        
+        .ant-modal-title {
+            font-weight: 600;
+            color: #333;
+        }
+    }
+}
+
+.pricingModalForm {
+    .ant-form-item {
+        margin-bottom: 20px;
+    }
+    
+    .ant-form-item-label > label {
+        font-weight: 500;
+        color: #333;
+    }
+}
+
+.pricingModalRow {
+    display: flex;
+    gap: 16px;
+    
+    .pricingModalPrice {
+        flex: 2;
+    }
+    
+    .pricingModalCurrency {
+        flex: 1;
+    }
+}
+
+// Responsive design
+@media (max-width: 576px) {
+    .pricingModal {
+        .ant-modal {
+            margin: 10px;
+            max-width: none;
+            width: calc(100vw - 20px) !important;
+        }
+    }
+    
+    .pricingModalRow {
+        flex-direction: column;
+        gap: 0;
+        
+        .pricingModalPrice,
+        .pricingModalCurrency {
+            flex: none;
+        }
+    }
+}

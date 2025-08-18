@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const PEOPLE_REST_API_URL = "http://localhost:8080/api/v1/people";
 
-// Mock data. Remove when backend API is ready.
-const person = {
+// Mock data for DB population
+const MOCK_PERSON_DATA = {
 	id: "fotografka.dtb",
 	firstName: "Цветомир",
 	lastName: "Цветков",
@@ -15,26 +15,22 @@ const person = {
 	categories: ["Сватбена фотография", "Абитуриенти", "Фотокниги", "Кръщене"],
 };
 
-export class PeopleService {	
-	async getPersonByUrlId(personUrlId) {
+export class PeopleService {
+	
+	async getPersonById(personId) {
 		let responseObj = {};
 		await axios
-			.get(`${PEOPLE_REST_API_URL}/${personUrlId}`)
+			.get(`${PEOPLE_REST_API_URL}/${personId}`)
 			.then((response) => {
 				responseObj = response;
+				console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
 			})
 			.catch((error) => {
-				if (error.response) {
-					responseObj = error.response;
-				} else if (error.request) {
-					responseObj.message = "The request was made but no response was received";
-				} else {
-					responseObj.message = "Something happened in setting up the request that triggered an Error";
-				}
-				responseObj.config = error.config;
-				
-				// Temporary until proper logging
-				console.log(responseObj);
+				responseObj = error.response || {
+					message: error.message || "Network or request error",
+					config: error.config
+				};
+				console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
 			});
 
 		return responseObj;
@@ -46,49 +42,52 @@ export class PeopleService {
 			.get(`${PEOPLE_REST_API_URL}/me`)
 			.then((response) => {
 				responseObj = response;
+				console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/me and receiving the following response:`, responseObj);
 			})
 			.catch((error) => {
-				if (error.response) {
-					responseObj = error.response;
-				} else if (error.request) {
-					responseObj.message = "The request was made but no response was received";
-				} else {
-					responseObj.message = "Something happened in setting up the request that triggered an Error";
-				}
-				responseObj.config = error.config;
-				
-				// Temporary until proper logging
-				console.log(responseObj);
+				responseObj = error.response || {
+					message: error.message || "Network or request error",
+					config: error.config
+				};
+				console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/me and receiving the following response:`, responseObj);
 			});
 
 		return responseObj;
 	}
 
-	addPerson(person) {
+	async addPerson(person) {
 		let responseObj = {};
-		axios
+		await axios
 			.post(`${PEOPLE_REST_API_URL}`, person)
 			.then((response) => {
-				responseObj = { ...response };
+				responseObj = response;
+				console.log(`Calling API URL: POST ${PEOPLE_REST_API_URL} and receiving the following response:`, responseObj);
 			})
 			.catch((error) => {
-				responseObj = { ...error.response };
-				console.log("Log. Error response: " + error.response);
+				responseObj = error.response || {
+					message: error.message || "Network or request error",
+					config: error.config
+				};
+				console.log(`Calling API URL: POST ${PEOPLE_REST_API_URL} and receiving the following response:`, responseObj);
 			});
 
 		return responseObj;
 	}
 
-	removePerson(personId) {
+	async removePerson(personId) {
 		let responseObj = {};
-		axios
+		await axios
 			.delete(`${PEOPLE_REST_API_URL}/${personId}`)
 			.then((response) => {
-				responseObj = { ...response };
+				responseObj = response;
+				console.log(`Calling API URL: DELETE ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
 			})
 			.catch((error) => {
-				responseObj = { ...error.response };
-				console.log("Log. Error response: " + error.response);
+				responseObj = error.response || {
+					message: error.message || "Network or request error",
+					config: error.config
+				};
+				console.log(`Calling API URL: DELETE ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
 			});
 
 		return responseObj;

@@ -7,7 +7,7 @@ import coverTwo from '../../images/bal.jpg';
 import coverThree from '../../images/kryshtene.jpg';
 import coverFour from '../../images/ogosta_3.jpg';
 
-function PhotographerPortfolio({ photographer, setSelectedPhotographer }) {
+function PhotographerPortfolio({ person, setSelectedPhotographer }) {
 	const navigate = useNavigate();
 
 	// Get use callback to backend and then use map to setCoverImageSrc to each album. Empty array if callback fails
@@ -39,7 +39,7 @@ function PhotographerPortfolio({ photographer, setSelectedPhotographer }) {
 	];
 
 	function buildShowMore() {
-		const showMoreUrl = `/photographers/${photographer.id}/albums`;
+		const showMoreUrl = `/people/${person.id}/albums`;
 		return (
 			<Link className="portfolioShowMore" to={showMoreUrl}>
 				Към албуми
@@ -49,7 +49,7 @@ function PhotographerPortfolio({ photographer, setSelectedPhotographer }) {
 
 	function onPortfolioClick(event) {
 		console.log(event);
-		setSelectedPhotographer(photographer);
+		setSelectedPhotographer(person);
 	}
 
 	function buildAlbums() {
@@ -58,14 +58,14 @@ function PhotographerPortfolio({ photographer, setSelectedPhotographer }) {
 				key={album.urlIdentifier}
 				title={album.title}
 				coverImageSrc={album.coverImageSrc}
-				onClick={() => navigate(`/photographers/${photographer.id}/albums/${album.urlIdentifier}`)}
+				onClick={() => navigate(`/people/${person.id}/albums/${album.urlIdentifier}`)}
 			/>
 		));
 	}
 
 	return (
 		<div className="photographerPortfolioContainer" onClick={onPortfolioClick}>
-			<Card hoverable title={photographer.firstName + " " + photographer.lastName} extra={buildShowMore()}>
+			<Card hoverable title={person.firstName + " " + person.lastName} extra={buildShowMore()}>
 				<div className="portfolioContent">{buildAlbums()}</div>
 			</Card>
 		</div>
