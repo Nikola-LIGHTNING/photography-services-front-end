@@ -1,6 +1,6 @@
 import "./PriceCard.less";
-import { Button } from 'antd';
-import { CalendarFilled, CheckOutlined } from '@ant-design/icons';
+import { Button, Popconfirm } from 'antd';
+import { CalendarFilled, CheckOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 function buildFeaturesList(featureList) {
 	if (featureList) {
@@ -12,21 +12,54 @@ function buildFeaturesList(featureList) {
 	}
 }
 
-function PriceCard({ price }) {
-	return (
+function PriceCard({ price, isOwner = false, onEdit, onDelete }) {
+		return (
 		<div className="priceCardContainer">
 			<div className="priceCardUpperContainer">
-				<div className="priceCardTitle">{price.title}</div>
-				<div className="priceCardPrice">{price.price} {price.currency}</div>
+				<div className="priceCardTitle">
+					{price.title}
+					<div className="priceCardTitleUnderline"></div>
+				</div>
+				<div className="priceCardPrice">{price.startingPrice} {price.currency}</div>
+				<div className="priceCardHours">{price.startingPriceHours} часа включени</div>
+				<div className="priceCardDescription">{price.description}</div>
+			</div>
+			<div className="priceCardBottomContainer">
 				<div className="priceCardButton">
 					<Button type="primary" block="true" size="large">
 						Запази сега <CalendarFilled />
 					</Button>
 				</div>
-				<div className="priceCardDescription">{price.description}</div>
-			</div>
-			<div className="priceCardLowerContainer">
-				{buildFeaturesList(price.features)}
+				{isOwner && (
+					<div className="priceCardActions">
+						<Button 
+							type="text" 
+							icon={<EditOutlined />}
+							size="small"
+							className="priceCardEditButton"
+							onClick={() => onEdit(price)}
+						>
+							Редактирай
+						</Button>
+						<Popconfirm
+							title="Изтриване на ценоразпис"
+							description="Сигурни ли сте, че искате да изтриете този ценоразпис?"
+							okText="Да"
+							cancelText="Не"
+							onConfirm={() => onDelete(price.pricingId)}
+						>
+							<Button 
+								type="text" 
+								danger
+								icon={<DeleteOutlined />}
+								size="small"
+								className="priceCardDeleteButton"
+							>
+								Изтрий
+							</Button>
+						</Popconfirm>
+					</div>
+				)}
 			</div>
 		</div>
 	);
