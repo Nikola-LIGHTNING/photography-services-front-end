@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { request } from './security/AxiosSetup';
 
 const PEOPLE_REST_API_URL = "http://localhost:8080/api/v1/people";
 
@@ -18,78 +18,32 @@ const MOCK_PERSON_DATA = {
 export class PeopleService {
 	
 	async getPersonById(personId) {
-		let responseObj = {};
-		await axios
-			.get(`${PEOPLE_REST_API_URL}/${personId}`)
-			.then((response) => {
-				responseObj = response;
-				console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
-			})
-			.catch((error) => {
-				responseObj = error.response || {
-					message: error.message || "Network or request error",
-					config: error.config
-				};
-				console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
-			});
-
-		return responseObj;
+		const response = await request('get', `${PEOPLE_REST_API_URL}/${personId}`);
+		console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, response);
+		return response;
 	}
 
 	async getPersonMe() {
-		let responseObj = {};
-		await axios
-			.get(`${PEOPLE_REST_API_URL}/me`)
-			.then((response) => {
-				responseObj = response;
-				console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/me and receiving the following response:`, responseObj);
-			})
-			.catch((error) => {
-				responseObj = error.response || {
-					message: error.message || "Network or request error",
-					config: error.config
-				};
-				console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/me and receiving the following response:`, responseObj);
-			});
-
-		return responseObj;
+		const response = await request('get', `${PEOPLE_REST_API_URL}/me`);
+		console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/me and receiving the following response:`, response);
+		return response;
 	}
 
 	async addPerson(person) {
-		let responseObj = {};
-		await axios
-			.post(`${PEOPLE_REST_API_URL}`, person)
-			.then((response) => {
-				responseObj = response;
-				console.log(`Calling API URL: POST ${PEOPLE_REST_API_URL} and receiving the following response:`, responseObj);
-			})
-			.catch((error) => {
-				responseObj = error.response || {
-					message: error.message || "Network or request error",
-					config: error.config
-				};
-				console.log(`Calling API URL: POST ${PEOPLE_REST_API_URL} and receiving the following response:`, responseObj);
-			});
+		const response = await request('post', `${PEOPLE_REST_API_URL}`, person);
+		console.log(`Calling API URL: POST ${PEOPLE_REST_API_URL} and receiving the following response:`, response);
+		return response;
+	}
 
-		return responseObj;
+	async updatePerson(personId, payload) {
+		const response = await request('patch', `${PEOPLE_REST_API_URL}/${personId}`, payload);
+		console.log(`Calling API URL: PATCH ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, response);
+		return response;
 	}
 
 	async removePerson(personId) {
-		let responseObj = {};
-		await axios
-			.delete(`${PEOPLE_REST_API_URL}/${personId}`)
-			.then((response) => {
-				responseObj = response;
-				console.log(`Calling API URL: DELETE ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
-			})
-			.catch((error) => {
-				responseObj = error.response || {
-					message: error.message || "Network or request error",
-					config: error.config
-				};
-				console.log(`Calling API URL: DELETE ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
-			});
-
-		return responseObj;
+		const response = await request('delete', `${PEOPLE_REST_API_URL}/${personId}`);
+		console.log(`Calling API URL: DELETE ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, response);
+		return response;
 	}
 }

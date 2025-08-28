@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { request } from './security/AxiosSetup';
 
 const PRICING_REST_API_URL = "http://localhost:8080/api/v1/pricing";
 
@@ -33,78 +33,26 @@ const MOCK_PRICING_DATA = {
 export class PricingService {
 	
 	async getPricingByPerson(personId) {
-		let responseObj = {};
-		await axios
-			.get(`${PRICING_REST_API_URL}/${personId}`)
-			.then((response) => {
-				responseObj = response;
-				console.log(`Calling API URL: GET ${PRICING_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
-			})
-			.catch((error) => {
-				responseObj = error.response || {
-					message: error.message || "Network or request error",
-					config: error.config
-				};
-				console.log(`Calling API URL: GET ${PRICING_REST_API_URL}/${personId} and receiving the following response:`, responseObj);
-			});
-
-		return responseObj;
+		const response = await request('get', `${PRICING_REST_API_URL}/${personId}`);
+		console.log(`Calling API URL: GET ${PRICING_REST_API_URL}/${personId} and receiving the following response:`, response);
+		return response;
 	}
 
 	async createPricing(pricing) {
-		let responseObj = {};
-		await axios
-			.post(`${PRICING_REST_API_URL}`, pricing)
-			.then((response) => {
-				responseObj = response;
-				console.log(`Calling API URL: POST ${PRICING_REST_API_URL} and receiving the following response:`, responseObj);
-			})
-			.catch((error) => {
-				responseObj = error.response || {
-					message: error.message || "Network or request error",
-					config: error.config
-				};
-				console.log(`Calling API URL: POST ${PRICING_REST_API_URL} and receiving the following response:`, responseObj);
-			});
-
-		return responseObj;
+		const response = await request('post', `${PRICING_REST_API_URL}`, pricing);
+		console.log(`Calling API URL: POST ${PRICING_REST_API_URL} and receiving the following response:`, response);
+		return response;
 	}
 
 	async updatePricing(pricingId, pricing) {
-		let responseObj = {};
-		await axios
-			.patch(`${PRICING_REST_API_URL}/${pricingId}`, pricing)
-			.then((response) => {
-				responseObj = response;
-				console.log(`Calling API URL: PATCH ${PRICING_REST_API_URL}/${pricingId} and receiving the following response:`, responseObj);
-			})
-			.catch((error) => {
-				responseObj = error.response || {
-					message: error.message || "Network or request error",
-					config: error.config
-				};
-				console.log(`Calling API URL: PATCH ${PRICING_REST_API_URL}/${pricingId} and receiving the following response:`, responseObj);
-			});
-
-		return responseObj;
+		const response = await request('patch', `${PRICING_REST_API_URL}/${pricingId}`, pricing);
+		console.log(`Calling API URL: PATCH ${PRICING_REST_API_URL}/${pricingId} and receiving the following response:`, response);
+		return response;
 	}
 
 	async deletePricing(pricingId) {
-		let responseObj = {};
-		await axios
-			.delete(`${PRICING_REST_API_URL}/${pricingId}`)
-			.then((response) => {
-				responseObj = response;
-				console.log(`Calling API URL: DELETE ${PRICING_REST_API_URL}/${pricingId} and receiving the following response:`, responseObj);
-			})
-			.catch((error) => {
-				responseObj = error.response || {
-					message: error.message || "Network or request error",
-					config: error.config
-				};
-				console.log(`Calling API URL: DELETE ${PRICING_REST_API_URL}/${pricingId} and receiving the following response:`, responseObj);
-			});
-
-		return responseObj;
+		const response = await request('delete', `${PRICING_REST_API_URL}/${pricingId}`);
+		console.log(`Calling API URL: DELETE ${PRICING_REST_API_URL}/${pricingId} and receiving the following response:`, response);
+		return response;
 	}
 }

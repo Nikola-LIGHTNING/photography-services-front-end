@@ -4,7 +4,7 @@ import ProfileSider from "../../components/ProfileSider/ProfileSider";
 import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import TextSection from "../../components/TextSection/TextSection";
 import ReviewSection from "../../components/ReviewSection/ReviewSection";
-import { Layout, Affix, FloatButton } from "antd";
+import { Layout, Affix, FloatButton, Modal, Form, Select, Button, message, Upload } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { ReviewService } from "../../services/ReviewService";
@@ -13,6 +13,9 @@ import { AboutMeService } from "../../services/AboutMeService";
 import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 import { useAuth } from "../../services/security/AuthContext";
 import { OwnershipService } from "../../services/security/OwnershipService";
+import { ProvinceService } from "../../services/ProvinceService";
+import { WorkCategoryService } from "../../services/WorkCategoryService";
+import { MediaService } from "../../services/MediaService";
 
 const { Content } = Layout;
 
@@ -20,6 +23,9 @@ const reviewService = new ReviewService();
 const peopleService = new PeopleService();
 const aboutMeService = new AboutMeService();
 const ownershipService = new OwnershipService();
+const provinceService = new ProvinceService();
+const workCategoryService = new WorkCategoryService();
+const mediaService = new MediaService();
 
 /**
  * Profile component displays a photographer's profile page with their details, about section, and reviews.
@@ -61,6 +67,16 @@ function Profile() {
 	const [collapsed, setCollapsed] = useState(false);
 	const [reviews, dispatch] = useReducer(reviewsReducer, []);
 
+	// Edit modal state
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+	const [editForm] = Form.useForm();
+	const [provinces, setProvinces] = useState([]);
+	const [professions, setProfessions] = useState([]);
+	const [workCategories, setWorkCategories] = useState([]);
+	const selectedProfession = Form.useWatch('profession', editForm);
+	const [profilePictureFile, setProfilePictureFile] = useState(null);
+	const [profilePictureUploading, setProfilePictureUploading] = useState(false);
+
 	// Run only when component mounts to fetch required data
 	useEffect(() => {
 		const personUrlId = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
@@ -91,10 +107,10 @@ function Profile() {
 				// Handle about and reviews data (always first two responses)
 				const aboutResponse = responses[0];
 				const reviewsResponse = responses[1];
-				
+
 				validateResponseStatus(aboutResponse, [200]);
 				validateResponseStatus(reviewsResponse, [200]);
-				
+
 				setAboutMe(aboutResponse.data);
 				dispatch({ type: "initialise", item: reviewsResponse.data.reviews });
 
@@ -110,7 +126,26 @@ function Profile() {
 				console.error("Error fetching profile data:", error);
 				navigate("/info/unknownerror");
 			});
+	}, [isAuthenticated]); // Add isAuthenticated as dependency
+
+	// Load provinces and professions for edit modal
+	useEffect(() => {
+		Promise.all([
+			provinceService.getProvinces(),
+			workCategoryService.getProfessions()
+		]).then((responses) => {
+			setProvinces(responses[0]?.data?.provinces || []);
+			setProfessions(responses[1]?.data?.professions || []);
+		}).catch(() => { });
 	}, []);
+
+	// Load categories when profession changes
+	useEffect(() => {
+		if (!selectedProfession) return;
+		workCategoryService.getWorkCategoriesByProfession(selectedProfession)
+			.then((response) => setWorkCategories(response?.data?.workCategories || []))
+			.catch(() => setWorkCategories([]));
+	}, [selectedProfession]);
 
 	function reviewsReducer(state, action) {
 		switch (action.type) {
@@ -137,18 +172,89 @@ function Profile() {
 		setCollapsed(collapsed);
 	}
 
+	function openEditModal() {
+		editForm.setFieldsValue({
+			profession: person.profession,
+			workProvinces: person.workProvinces || [],
+			workCategories: person.workCategories || []
+		});
+		setProfilePictureFile(null);
+		setIsEditModalOpen(true);
+	}
+
+	function closeEditModal() {
+		setIsEditModalOpen(false);
+	}
+
 	async function handleAboutSave(newText) {
 		try {
 			const aboutRequest = { about: newText };
 			const response = await aboutMeService.addAboutMeByPersonId(aboutRequest);
 			validateResponseStatus(response, [201]);
-			
+
 			// Update local state with the response data
 			setAboutMe(response.data);
 			console.log("About section updated successfully");
 		} catch (error) {
 			console.error("Error saving about section:", error);
 			// You might want to show an error message to the user here
+		}
+	}
+
+	async function handleSaveWork() {
+		try {
+			setProfilePictureUploading(true);
+			const values = await editForm.validateFields();
+
+			let profileMediaId = null;
+
+			// Upload profile picture if selected
+			if (profilePictureFile) {
+				profileMediaId = await uploadProfilePicture(profilePictureFile);
+			}
+
+			const payload = {
+				profession: values.profession,
+				workProvinces: values.workProvinces,
+				workCategories: values.workCategories
+			};
+
+			if (profileMediaId) {
+				payload.profileMediaId = profileMediaId;
+			}
+
+			const response = await peopleService.updatePerson(person.id, payload);
+			if (!hasValidResponseStatus(response, [200])) throw new Error('status');
+
+			message.success('Профилът е обновен успешно');
+
+			// Update local state with new data including profile media URL
+			const updatedPerson = { ...person, ...payload };
+			if (response.data.profileMediaUrl) {
+				updatedPerson.profileMediaUrl = response.data.profileMediaUrl;
+			}
+
+			setPerson(updatedPerson);
+			setCategories(payload.workCategories || []);
+			closeEditModal();
+		} catch (err) {
+			console.error('Error updating profile:', err);
+			message.error('Неуспешно обновяване на профила');
+		} finally {
+			setProfilePictureUploading(false);
+		}
+	}
+
+	async function uploadProfilePicture(file) {
+		const result = await mediaService.uploadFile(file);
+		return result.mediaId;
+	}
+
+	function handleProfilePictureChange(info) {
+		if (info.file.status === 'removed') {
+			setProfilePictureFile(null);
+		} else {
+			setProfilePictureFile(info.file.originFileObj || info.file);
 		}
 	}
 
@@ -168,14 +274,11 @@ function Profile() {
 					/>
 					<Content
 						className="profilePageContent"
-					// style={{
-					// 	marginLeft: collapsed ? "50px" : "266px", // Adjust for the sider position: fixed
-					// }}
 					>
-						<ProfileDetails person={person} reviews={reviews} />
-						<TextSection 
-							title="За мен" 
-							text={aboutMe.about} 
+						<ProfileDetails person={person} reviews={reviews} isOwner={isOwner} onEditClick={openEditModal} />
+						<TextSection
+							title="За мен"
+							text={aboutMe.about}
 							isOwner={isOwner}
 							onSave={(newText) => handleAboutSave(newText)}
 						/>
@@ -184,6 +287,57 @@ function Profile() {
 					</Content>
 				</Layout>
 			</Content>
+
+			<Modal
+				open={isEditModalOpen}
+				title="Редактирай профил"
+				onCancel={closeEditModal}
+				footer={[
+					<Button key="cancel" onClick={closeEditModal}>Отказ</Button>,
+					<Button key="save" type="primary" onClick={handleSaveWork} loading={profilePictureUploading}>
+						Запази
+					</Button>
+				]}
+			>
+				<Form form={editForm} layout="vertical">
+					<Form.Item label="Профилна снимка">
+						<Upload
+							listType="picture-card"
+							maxCount={1}
+							beforeUpload={() => false}
+							onChange={handleProfilePictureChange}
+							accept="image/*"
+						>
+							{profilePictureFile ? null : (
+								<div>
+									<div style={{ marginTop: 8 }}>Качи снимка</div>
+								</div>
+							)}
+						</Upload>
+					</Form.Item>
+					<Form.Item name="profession" label="Професия">
+						<Select placeholder="Избери професия">
+							{professions.map(p => (
+								<Select.Option key={p} value={p}>{p}</Select.Option>
+							))}
+						</Select>
+					</Form.Item>
+					<Form.Item name="workProvinces" label="Области на работа">
+						<Select mode="multiple" placeholder="Избери области на работа">
+							{provinces.map(prov => (
+								<Select.Option key={prov} value={prov}>{prov}</Select.Option>
+							))}
+						</Select>
+					</Form.Item>
+					<Form.Item name="workCategories" label="Специализации">
+						<Select mode="multiple" placeholder="Избери специализации">
+							{workCategories.map(cat => (
+								<Select.Option key={cat} value={cat}>{cat}</Select.Option>
+							))}
+						</Select>
+					</Form.Item>
+				</Form>
+			</Modal>
 		</Layout>
 	);
 }

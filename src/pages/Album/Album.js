@@ -1,28 +1,28 @@
 import "./Album.less";
-import { UserOutlined } from "@ant-design/icons";
-import { Layout, Affix, FloatButton, Menu } from "antd";
+import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Layout, Affix, FloatButton, Menu, Button, message, Modal, Popconfirm, Spin } from "antd";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
 import Navbar from "../../components/Navbar/Navbar";
 import PhotographerDetails from "../../components/PhotographerDetails/PhotographerDetails";
-import coverOne from '../../images/GN-821.jpg';
-import coverTwo from '../../images/bal.jpg';
-import coverThree from '../../images/kryshtene.jpg';
-import coverFour from '../../images/ogosta_3.jpg';
-import coverFive from '../../images/bikini.jpg';
-import coverSix from '../../images/ogosta.jpg';
-import coverSeven from '../../images/ogosta_2.jpg';
-import coverEight from '../../images/family.jpg';
-import coverNine from '../../images/family2.jpg';
-import coverTen from '../../images/family3.jpg';
-import coverEleven from '../../images/film.png';
-import coverTwelve from '../../images/logo192.png';
 import Photo from "../../components/Photo/Photo";
+import { MediaService } from "../../services/MediaService";
+import UploadAlbumModal from "../../components/UploadAlbumModal/UploadAlbumModal";
+import { PeopleService } from "../../services/PeopleService";
+import { AlbumService } from "../../services/AlbumService";
+import { useAuth } from "../../services/security/AuthContext";
+import { OwnershipService } from "../../services/security/OwnershipService";
+import { hasValidResponseStatus } from "../../utils/ValidationUtils";
 
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
+
+const peopleService = new PeopleService();
+const albumService = new AlbumService();
+const ownershipService = new OwnershipService();
+const mediaService = new MediaService();
 
 function scrollToTop() {
     scroll.scrollToTop({
@@ -36,24 +36,15 @@ function scrollToTop() {
 function Album() {
     const location = useLocation();
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
     const [collapsed, setCollapsed] = useState(false);
-
-    // Load from backend API callback. Use a ServiceClass to encapsulate the backend calls logic and use that ServiceClass here.
-    const person = {
-        id: "fotograf.fotografov",
-        firstName: "Фотограф",
-        lastName: "Фотографов",
-        phoneNumber: "0877555333",
-        profileImgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-        gender: "Мъж",
-        workArea: ["София", "Монтана", "Враца"],
-        categories: ["Сватбена фотография"],
-        // 4 Img sources for album covers of every category
-        // This logic should be implemented where the albums for a photographer are fetched.
-        // when a category is selected we show it as the first album cover for a photographer
-        // we add it as the first element or remove it as if the category is deselected
-        // we fill the rest of the list (2 items) with categories which are selected
-    };
+    const [person, setPerson] = useState({});
+    const [album, setAlbum] = useState(null);
+    const [mediaList, setMediaList] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [isOwner, setIsOwner] = useState(false);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [mediaToDelete, setMediaToDelete] = useState(null);
 
     const categories = {
         events: [
@@ -93,147 +84,199 @@ function Album() {
             },
         ],
     };
-    const album = {
-        id: "1",
-        title: "Сватбата на Никол и Мартин",
-        createdByUser: "177",
-        createdOn: "2024-02-08 06:19:26.674",
-        coverMediaId: "1",
-        coverImageSrc: coverOne,
-        categoryKey: "wedding"
-    };
-    const mediaList = [
-        {
-            mediaId: "1",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverOne,
-        },
-        {
-            mediaId: "2",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverTwo,
-        },
-        {
-            mediaId: "3",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverThree,
-        },
-        {
-            mediaId: "4",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverFour,
-        },
-        {
-            mediaId: "5",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverFive,
-        },
-        {
-            mediaId: "6",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverSix,
-        },
-        {
-            mediaId: "7",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverSeven,
-        },
-        {
-            mediaId: "8",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverEight,
-        },
-        {
-            mediaId: "9",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverNine,
-        },
-        {
-            mediaId: "10",
-            fileName: "dsc_1",
-            fileType: ".jpg",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverTen,
-        },
-        {
-            mediaId: "11",
-            fileName: "dsc_1",
-            fileType: ".png",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverEleven,
-        },
-        {
-            mediaId: "12",
-            fileName: "dsc_1",
-            fileType: ".png",
-            mediaType: "IMAGE",
-            albumId: "1",
-            downloadLink: "string",
-            createdOn: "2024-02-08 06:19:26.674",
-            coverImageSrc: coverTwelve,
-        }
-    ];
 
-    // Runs every time the URL changes: This includes when the page is first opened through a URL, when navigating to a new route within the app, or when the URL parameters or hash change.
+    // Helper function to validate API responses
+    function validateResponseStatus(response, validStatusesList) {
+        if (!hasValidResponseStatus(response, validStatusesList)) {
+            navigate("/info/unknownerror");
+        }
+    }
+
+    // Load album data when component mounts
     useEffect(() => {
+        const loadAlbumData = async () => {
+            try {
+                setLoading(true);
+                
+                // Extract personId and albumId from URL: /people/{personId}/albums/{albumId}
+                const pathParts = location.pathname.split("/");
+                const personUrlId = pathParts[2];
+                const albumUrlId = pathParts[4];
+
+                if (!personUrlId || !albumUrlId) {
+                    navigate("/info/unknownerror");
+                    return;
+                }
+
+                // Load person data
+                const personResponse = await peopleService.getPersonById(personUrlId);
+                validateResponseStatus(personResponse, [200]);
+                const personData = personResponse.data;
+                setPerson(personData);
+
+                // Load album data
+                const albumResponse = await albumService.getAlbum(albumUrlId);
+                validateResponseStatus(albumResponse, [200]);
+                const albumData = albumResponse.data;
+                setAlbum(albumData);
+
+                // Load album media
+                const mediaResponse = await albumService.getAlbumMedia(albumUrlId);
+                validateResponseStatus(mediaResponse, [200]);
+                const mediaData = mediaResponse.data.media || [];
+                
+                // Map media data to component format
+                const mappedMedia = mediaData.map(media => ({
+                    mediaId: media.mediaId,
+                    fileName: media.fileName,
+                    fileType: media.fileType,
+                    mediaType: media.mediaType,
+                    albumId: media.albumId,
+                    downloadLink: media.downloadLink,
+                    createdOn: media.createdOn,
+                    coverImageSrc: media.downloadLink // Use download link as image source
+                }));
+                
+                setMediaList(mappedMedia);
+
+                // Check ownership if user is authenticated
+                if (isAuthenticated) {
+                    const isOwnerResult = await ownershipService.isProfileOwner(personData.id);
+                    setIsOwner(isOwnerResult);
+                }
+
+            } catch (error) {
+                console.error('Error loading album data:', error);
+                message.error('Грешка при зареждане на албума');
+                navigate("/info/unknownerror");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadAlbumData();
         scrollToTop();
-    }, [location]);
+    }, [location, isAuthenticated]);
 
     function collapseSider(collapsed) {
         setCollapsed(collapsed);
     }
 
+    // Handle edit album
+    function handleEditAlbum() {
+        setIsEditModalVisible(true);
+    }
+
+    // Handle edit modal cancel
+    function handleEditCancel() {
+        setIsEditModalVisible(false);
+    }
+
+    // Handle edit success - refresh album data
+    async function handleEditSuccess(result) {
+        try {
+            setIsEditModalVisible(false);
+            
+            // Refresh album data
+            const pathParts = location.pathname.split("/");
+            const albumUrlId = pathParts[4];
+            
+            const albumResponse = await albumService.getAlbum(albumUrlId);
+            validateResponseStatus(albumResponse, [200]);
+            setAlbum(albumResponse.data);
+            
+            // Refresh media list
+            const mediaResponse = await albumService.getAlbumMedia(albumUrlId);
+            validateResponseStatus(mediaResponse, [200]);
+            const mediaData = mediaResponse.data.media || [];
+            
+            const mappedMedia = mediaData.map(media => ({
+                mediaId: media.mediaId,
+                fileName: media.fileName,
+                fileType: media.fileType,
+                mediaType: media.mediaType,
+                albumId: media.albumId,
+                downloadLink: media.downloadLink,
+                createdOn: media.createdOn,
+                coverImageSrc: media.downloadLink
+            }));
+            
+            setMediaList(mappedMedia);
+            
+        } catch (error) {
+            console.error('Error refreshing album data:', error);
+            message.error('Грешка при зареждане на обновените данни');
+        }
+    }
+
+    // Handle delete album
+    function handleDeleteAlbum() {
+        Modal.confirm({
+            title: 'Потвърждение за изтриване',
+            content: `Сигурни ли сте, че искате да изтриете албума "${album?.title}"? Това действие не може да бъде отменено.`,
+            okText: 'Изтрий',
+            okType: 'danger',
+            cancelText: 'Отказ',
+            onOk: async () => {
+                try {
+                    const pathParts = location.pathname.split("/");
+                    const albumUrlId = pathParts[4];
+                    
+                    const deleteResponse = await albumService.deleteAlbum(albumUrlId);
+                    if (hasValidResponseStatus(deleteResponse, [204])) {
+                        message.success('Албумът беше изтрит успешно');
+                        navigate(`/people/${person.id}/albums`);
+                    } else {
+                        message.error('Изтриването на албума не беше успешно');
+                    }
+                } catch (error) {
+                    console.error('Error deleting album:', error);
+                    message.error('Грешка при изтриване на албума');
+                }
+            }
+        });
+    }
+
+    // Handle delete individual media
+    function handleDeleteMedia(mediaId) {
+        setMediaToDelete(mediaId);
+    }
+
+    // Confirm delete media
+    async function confirmDeleteMedia() {
+        if (!mediaToDelete) return;
+        try {
+            const response = await mediaService.deleteMedia(mediaToDelete);
+            if (hasValidResponseStatus(response, [204])) {
+                message.success('Снимката беше изтрита успешно');
+                setMediaList(prev => prev.filter(media => media.mediaId !== mediaToDelete));
+            } else {
+                message.error('Изтриването на снимката не беше успешно');
+            }
+        } catch (err) {
+            console.error('Error deleting media:', err);
+            message.error('Грешка при изтриване на снимката');
+        } finally {
+            setMediaToDelete(null);
+        }
+    }
+
+
+    if (loading) {
+        return (
+            <Layout>
+                <FloatButton.BackTop duration="800" />
+                <Affix>
+                    <Navbar selectedTab={"photographers"} categories={categories} />
+                </Affix>
+                <Content>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                        <Spin size="large" />
+                    </div>
+                </Content>
+            </Layout>
+        );
+    }
 
     return (
         <Layout>
@@ -252,29 +295,87 @@ function Album() {
                         collapsed={collapsed}
                         onCollapse={collapseSider}
                     >
-                        <Menu mode="inline" defaultOpenKeys={["photographerDetails", "events", "other"]}>
-                            {/* Display the selected photographer .*/}
-                            <SubMenu key="personDetails" icon={<UserOutlined />} title={person.firstName}>
+                        <Menu mode="inline" defaultOpenKeys={["personDetails"]}>
+                            {/* Display the selected photographer */}
+                            <SubMenu key="personDetails" icon={<UserOutlined />} title={person.firstName || "Loading..."}>
                                 {!collapsed && <PhotographerDetails person={person} />}
                             </SubMenu>
                         </Menu>
                     </Sider>
                     <Content className="albumPageContent">
-                        <div className="albumPageTitle">{album.title}</div>
-                        <div className="albumPageMediaList">{
-                            mediaList
-                                .map((media) => (
-                                    <Photo
-                                        key={media.mediaId}
-                                        title={media.title}
-                                        coverImageSrc={media.coverImageSrc}
-                                        // onClick={() => navigate(`/people/${person.id}/albums/${media.id}`)}
-                                    />
-                                ))}
+                        <div className="albumPageTitle">{album?.title || "Loading..."}</div>
+                        {isOwner && (
+                            <div className="albumPageActions">
+                                <Button
+                                    type="primary"
+                                    icon={<EditOutlined />}
+                                    onClick={handleEditAlbum}
+                                    style={{ marginRight: 8 }}
+                                >
+                                    Редактирай албум
+                                </Button>
+                                <Button
+                                    type="primary"
+                                    danger
+                                    icon={<DeleteOutlined />}
+                                    onClick={handleDeleteAlbum}
+                                >
+                                    Изтрий албум
+                                </Button>
+                            </div>
+                        )}
+                        <div className="albumPageMediaList">
+                            {mediaList.length === 0 ? (
+                                <div className="albumPageEmptyState">
+                                    <p>Няма качени снимки в този албум.</p>
+                                </div>
+                            ) : (
+                                mediaList.map((media) => (
+                                    <div key={media.mediaId} className="albumPageMediaItem">
+                                        <Photo
+                                            title={media.fileName}
+                                            coverImageSrc={media.coverImageSrc}
+                                        />
+                                        {isOwner && (
+                                            <Popconfirm
+                                                title="Изтриване на снимка"
+                                                description="Сигурни ли сте, че искате да изтриете тази снимка?"
+                                                onConfirm={() => confirmDeleteMedia()}
+                                                okText="Да"
+                                                cancelText="Не"
+                                            >
+                                                <Button
+                                                    type="text"
+                                                    danger
+                                                    size="small"
+                                                    icon={<DeleteOutlined />}
+                                                    className="albumPageDeleteMediaButton"
+                                                    onClick={() => handleDeleteMedia(media.mediaId)}
+                                                />
+                                            </Popconfirm>
+                                        )}
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </Content>
                 </Layout>
             </Content>
+
+            {/* Edit Album Modal */}
+            <UploadAlbumModal
+                visible={isEditModalVisible}
+                onCancel={handleEditCancel}
+                onSuccess={handleEditSuccess}
+                categories={person.workCategories ? Array.from(person.workCategories) : []}
+                editMode={true}
+                initialData={{
+                    albumId: album?.albumId,
+                    title: album?.title,
+                    coverMediaId: album?.coverMediaId,
+                    existingMedia: mediaList
+                }}
+            />
         </Layout>
     );
 }

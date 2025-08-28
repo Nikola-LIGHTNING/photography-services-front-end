@@ -321,7 +321,7 @@ function Register() {
 					>
 						<Select placeholder="Избери пол">
 							<Option value="Мъж">Мъж</Option>
-							<Option value="FEMALE">Жена</Option>
+							<Option value="Жена">Жена</Option>
 						</Select>
 					</Form.Item>
 					<Form.Item

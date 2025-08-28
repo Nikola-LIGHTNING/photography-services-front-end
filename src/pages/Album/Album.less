@@ -30,6 +30,15 @@
     text-align: center;
 }
 
+.albumPageActions {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	padding: 10px 15px 20px 15px;
+	background-color: white;
+	border-bottom: 1px solid #f0f0f0;
+}
+
 .albumPageSearchContainer {
 	width: 350px;
 }
@@ -45,4 +54,45 @@
 	gap: 15px;
 	padding-left: 15px; // In order for the albums to start at the same padding as the search topbar
 	padding-right: 15px;
+}
+
+.albumPageMediaItem {
+	position: relative;
+}
+
+.albumPageMediaItem:hover {}
+
+.albumPageDeleteMediaButton {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+	background: rgba(255, 255, 255, 0.9);
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.albumPageDeleteMediaButton:hover {
+	background: rgba(255, 255, 255, 1);
+	color: #ff4d4f;
+}
+
+.albumPageMediaItem:hover .albumPageDeleteMediaButton {
+	opacity: 1;
+}
+
+.albumPageEmptyState {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 200px;
+	width: 100%;
+	color: #999;
+	font-size: 16px;
 }

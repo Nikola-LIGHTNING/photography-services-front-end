@@ -59,7 +59,7 @@ function TextSection({ title, text, isOwner, onSave }) {
 				<div className="textSectionTitle">{title}</div>
 				{isOwner && !isEditing && (
 					<Button 
-						type="link" 
+						type="primary"
 						icon={<EditOutlined />}
 						onClick={handleEditClick}
 						className="editButton"
@@ -74,14 +74,12 @@ function TextSection({ title, text, isOwner, onSave }) {
 							icon={<SaveOutlined />}
 							onClick={handleSaveEdit}
 							loading={isSaving}
-							size="small"
 						>
 							Запази
 						</Button>
 						<Button 
 							icon={<CloseOutlined />}
 							onClick={handleCancelEdit}
-							size="small"
 							style={{ marginLeft: 8 }}
 						>
 							Отказ

@@ -31,3 +31,13 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 ); 
+
+// Shared HTTP request helper using the configured axios instance
+export async function request(method, url, data) {
+  try {
+    const response = await axios({ method, url, data });
+    return response;
+  } catch (error) {
+    return error.response || { message: error.message || 'Network or request error', config: error.config };
+  }
+}
