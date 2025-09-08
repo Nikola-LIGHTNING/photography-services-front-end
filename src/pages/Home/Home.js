@@ -27,7 +27,7 @@ function Home() {
 	}, []);
 
 	function handleHomeContentBtnClick(category, categoryKey) {
-		navigate("/services", { state: { selectedCategory: category, selectedTab: categoryKey } });
+		navigate("/people", { state: { selectedCategory: category, selectedTab: categoryKey } });
 	}
 
 	// Load from backend API callback
@@ -82,25 +82,25 @@ function Home() {
 					homeContentId="homeWeddingContent"
 					imgSrc={coverOne}
 					btnText="Сватбена фотография"
-					onClick={() => handleHomeContentBtnClick("Сватбена фотография", "services_wedding")}
+					onClick={() => handleHomeContentBtnClick("Сватбена фотография", "people_wedding")}
 				/>
 				<HomeContent
 					homeContentId="homePromContent"
 					imgSrc={coverTwo}
 					btnText="Абитуриенти"
-					onClick={() => handleHomeContentBtnClick("Абитуриенти", "services_prom")}
+					onClick={() => handleHomeContentBtnClick("Абитуриенти", "people_prom")}
 				/>
 				<HomeContent
 					homeContentId="homeBaptismContent"
 					imgSrc={coverThree}
 					btnText="Кръщене"
-					onClick={() => handleHomeContentBtnClick("Кръщене", "services_baptism")}
+					onClick={() => handleHomeContentBtnClick("Кръщене", "people_baptism")}
 				/>
 				<HomeContent
 					homeContentId="homeFamilyContent"
 					imgSrc={coverFour}
 					btnText="Семейна фотосесия"
-					onClick={() => handleHomeContentBtnClick("Семейна фотосесия", "services_family")}
+					onClick={() => handleHomeContentBtnClick("Семейна фотосесия", "people_family")}
 				/>
 				<Footer />
 			</Layout>

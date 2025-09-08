@@ -1,8 +1,8 @@
 import "./Pricing.less";
 import Navbar from "../../components/Navbar/Navbar";
-import ProfileSider from "../../components/ProfileSider/ProfileSider";
-import { Layout, Affix, FloatButton, Button, message } from "antd";
-import { PlusOutlined } from '@ant-design/icons';
+import PhotographerDetails from "../../components/PhotographerDetails/PhotographerDetails";
+import { Layout, Affix, FloatButton, Button, message, Menu } from "antd";
+import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { PeopleService } from "../../services/PeopleService";
@@ -13,7 +13,8 @@ import { OwnershipService } from "../../services/security/OwnershipService";
 import PriceCard from "../../components/PriceCard/PriceCard";
 import PricingModal from "../../components/PricingModal/PricingModal";
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
+const { SubMenu } = Menu;
 
 const peopleService = new PeopleService();
 const pricingService = new PricingService();
@@ -202,12 +203,22 @@ function Pricing() {
 			</Affix>
 			<Content>
 				<Layout className="pricingPageLayout">
-					<ProfileSider
+					<Sider
+						className="pricingPageSider"
+						collapsedWidth="50"
+						width="266"
+						collapsible="true"
+						theme="light"
 						collapsed={collapsed}
 						onCollapse={collapseSider}
-						selectedPage="pricing"
-						person={person}
-					/>
+					>
+						<Menu mode="inline" defaultOpenKeys={["personDetails"]}>
+							{/* Display the selected photographer */}
+							<SubMenu key="personDetails" icon={<UserOutlined />} title={person.firstName || "Loading..."}>
+								{!collapsed && <PhotographerDetails person={person} />}
+							</SubMenu>
+						</Menu>
+					</Sider>
 					<Content className="pricingPageContent">
 						{isOwner && (
 							<div className="pricingAddButtonContainer">

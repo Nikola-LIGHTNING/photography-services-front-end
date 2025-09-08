@@ -4,8 +4,7 @@ import { ConfigProvider } from 'antd';
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import Services from "./pages/Services/Services";
-import Photographers from "./pages/Photographers/Photographers";
+import People from "./pages/People/People";
 import Profile from "./pages/Profile/Profile";
 import Pricing from "./pages/Pricing/Pricing";
 import Albums from "./pages/Albums/Albums";
@@ -53,8 +52,7 @@ function App() {
 					<Route path="/register" element={<Register />} />
 					
 					{/* Main feature routes */}
-					<Route path="/services" element={<Services />} />
-					<Route path="/photographers" element={<Photographers />} />
+					<Route path="/people" element={<People />} />
 					<Route path="/people/:photographerId" element={<Profile />} />
 					<Route path="/people/:photographerId/pricing" element={<Pricing />} />
 					<Route path="/people/:photographerId/albums" element={<Albums />} />

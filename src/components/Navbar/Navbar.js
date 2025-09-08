@@ -57,8 +57,8 @@ function Navbar({ selectedTab, categories }) {
 	function buildSubMenuCategories(categoryList) {
 		if (categoryList) {
 			return categoryList.map(({ value, key }) => (
-				<Menu.Item key={"services_" + key}>
-					<Link to="/services" state={{ selectedCategory: value, selectedTab: "services_" + key }} >
+				<Menu.Item key={"people_" + key}>
+					<Link to="/people" state={{ selectedCategory: value, selectedTab: "people_" + key }} >
 						{value}
 					</Link>
 				</Menu.Item>
@@ -68,7 +68,7 @@ function Navbar({ selectedTab, categories }) {
 
 	const renderAuthenticated = () => (		
 		<Space>
-			<Link to={personId ? `/people/${personId}` : `/photographers/`}>
+			<Link to={personId ? `/people/${personId}` : `/people`}>
 				<Avatar
 					icon={<UserOutlined />} 
 					size="large"
@@ -104,13 +104,10 @@ function Navbar({ selectedTab, categories }) {
 				<Item key="home">
 					<Link to="/">Начало</Link>
 				</Item>
-				<SubMenu key="photo_services" title="Услуги" onTitleClick={() => navigate("/services")}>
+				<SubMenu key="photographers" title="Фотографи" onTitleClick={() => navigate("/people")}>
 					<ItemGroup title="Отразяване на събития">{buildSubMenuCategories(categories.events)}</ItemGroup>
 					<ItemGroup title="Други">{buildSubMenuCategories(categories.other)}</ItemGroup>
 				</SubMenu>
-				<Item key="photographers">
-					<Link to="/photographers">Фотографи</Link>
-				</Item>
 				<Item key="contacts">
 					<a href="https://ant.design" target="_blank" rel="noopener noreferrer">
 						Контакти

@@ -17,6 +17,12 @@ const MOCK_PERSON_DATA = {
 
 export class PeopleService {
 	
+	async getAllPeople() {
+		const response = await request('get', `${PEOPLE_REST_API_URL}`);
+		console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL} and receiving the following response:`, response);
+		return response;
+	}
+
 	async getPersonById(personId) {
 		const response = await request('get', `${PEOPLE_REST_API_URL}/${personId}`);
 		console.log(`Calling API URL: GET ${PEOPLE_REST_API_URL}/${personId} and receiving the following response:`, response);

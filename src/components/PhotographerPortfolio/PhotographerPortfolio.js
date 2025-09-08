@@ -2,41 +2,34 @@ import "./PhotographerPortfolio.less";
 import { Card } from "antd";
 import AlbumCard from "../AlbumCard/AlbumCard";
 import { Link, useNavigate } from "react-router-dom";
-import coverOne from '../../images/GN-821.jpg';
-import coverTwo from '../../images/bal.jpg';
-import coverThree from '../../images/kryshtene.jpg';
-import coverFour from '../../images/ogosta_3.jpg';
+import { useEffect, useState } from "react";
+import { AlbumService } from "../../services/AlbumService";
 
 function PhotographerPortfolio({ person, setSelectedPhotographer }) {
 	const navigate = useNavigate();
+	const albumService = new AlbumService();
+	const [albums, setAlbums] = useState([]);
 
-	// Get use callback to backend and then use map to setCoverImageSrc to each album. Empty array if callback fails
-	const albums = [
-		{
-			id: "1",
-			title: "Сватбата на Галя и Никола",
-			urlIdentifier: "svatba.nikola.galya",
-			coverImageSrc: coverOne,
-		},
-		{
-			id: "2",
-			title: "Абитуриентски бал",
-			urlIdentifier: "2019.bal.gpche.12a",
-			coverImageSrc: coverTwo,
-		},
-		{
-			id: "3",
-			title: "Кръщeнето на Иванчо",
-			urlIdentifier: "kryshtene.ivancho.21.03.2019",
-			coverImageSrc: coverThree,
-		},
-		{
-			id: "4",
-			title: "Монтански пейзажи",
-			urlIdentifier: "priroda.montana",
-			coverImageSrc: coverFour,
-		},
-	];
+	useEffect(() => {
+		if (!person || !person.id) {
+			setAlbums([]);
+			return;
+		}
+
+		(async () => {
+			const resp = await albumService.getAlbumsByPerson(person.id);
+			const mapped = resp.data.albums.map(a => ({
+				id: a.albumId?.toString(),
+				title: a.title,
+				urlIdentifier: a.albumId?.toString(),
+				coverImageSrc: a.coverDownloadUrl || null,
+				coverMediaId: a.coverMediaId
+			}));
+			setAlbums(mapped);
+		})();
+	}, [person?.id]);
+
+	// albums state is populated from backend
 
 	function buildShowMore() {
 		const showMoreUrl = `/people/${person.id}/albums`;
@@ -53,12 +46,15 @@ function PhotographerPortfolio({ person, setSelectedPhotographer }) {
 	}
 
 	function buildAlbums() {
+		if (!albums || albums.length === 0) 
+			return null;
+
 		return albums.map((album) => (
 			<AlbumCard
-				key={album.urlIdentifier}
+				key={album.id}
 				title={album.title}
 				coverImageSrc={album.coverImageSrc}
-				onClick={() => navigate(`/people/${person.id}/albums/${album.urlIdentifier}`)}
+				onClick={() => navigate(`/people/${person.id}/albums/${album.id}`)}
 			/>
 		));
 	}

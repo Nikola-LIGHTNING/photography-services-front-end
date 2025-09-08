@@ -1,10 +1,11 @@
 import "./Profile.less";
 import Navbar from "../../components/Navbar/Navbar";
-import ProfileSider from "../../components/ProfileSider/ProfileSider";
+import PhotographerDetails from "../../components/PhotographerDetails/PhotographerDetails";
 import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import TextSection from "../../components/TextSection/TextSection";
 import ReviewSection from "../../components/ReviewSection/ReviewSection";
-import { Layout, Affix, FloatButton, Modal, Form, Select, Button, message, Upload } from "antd";
+import { Layout, Affix, FloatButton, Modal, Form, Select, Button, message, Upload, Menu } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { ReviewService } from "../../services/ReviewService";
@@ -17,7 +18,8 @@ import { ProvinceService } from "../../services/ProvinceService";
 import { WorkCategoryService } from "../../services/WorkCategoryService";
 import { MediaService } from "../../services/MediaService";
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
+const { SubMenu } = Menu;
 
 const reviewService = new ReviewService();
 const peopleService = new PeopleService();
@@ -142,8 +144,15 @@ function Profile() {
 	// Load categories when profession changes
 	useEffect(() => {
 		if (!selectedProfession) return;
+		
 		workCategoryService.getWorkCategoriesByProfession(selectedProfession)
-			.then((response) => setWorkCategories(response?.data?.workCategories || []))
+			.then((response) => {
+				setWorkCategories(response?.data?.workCategories || []);
+				if (selectedProfession !== person.profession) {
+					// Only clear categories if user is changing to a different profession
+					editForm.setFieldsValue({ workCategories: [] });
+				}
+			})
 			.catch(() => setWorkCategories([]));
 	}, [selectedProfession]);
 
@@ -266,12 +275,22 @@ function Profile() {
 			</Affix>
 			<Content>
 				<Layout className="profilePageLayout">
-					<ProfileSider
+					<Sider
+						className="profilePageSider"
+						collapsedWidth="50"
+						width="266"
+						collapsible="true"
+						theme="light"
 						collapsed={collapsed}
 						onCollapse={collapseSider}
-						selectedPage="profile"
-						person={person}
-					/>
+					>
+						<Menu mode="inline" defaultOpenKeys={["personDetails"]}>
+							{/* Display the selected photographer */}
+							<SubMenu key="personDetails" icon={<UserOutlined />} title={person.firstName || "Loading..."}>
+								{!collapsed && <PhotographerDetails person={person} />}
+							</SubMenu>
+						</Menu>
+					</Sider>
 					<Content
 						className="profilePageContent"
 					>
@@ -315,7 +334,7 @@ function Profile() {
 							)}
 						</Upload>
 					</Form.Item>
-					<Form.Item name="profession" label="Професия">
+					<Form.Item name="profession" label="Професии">
 						<Select placeholder="Избери професия">
 							{professions.map(p => (
 								<Select.Option key={p} value={p}>{p}</Select.Option>
